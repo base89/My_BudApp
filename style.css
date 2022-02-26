@@ -1,0 +1,127 @@
+body {
+    background-color: #f8f8f8 !important;
+    /* font-family: 'Roboto', sans-serif; */
+}
+
+.bg-l-gray-app {
+    background-color: #f8f8f8 !important;
+}
+
+.bud_app_logo {
+    font-family: 'Boogaloo', cursive !important;
+    font-size: 4em !important;
+}
+
+.bg-green-app {
+    background-color: #38b000 !important;
+    color: white !important;
+}
+
+.bg-btn-app {
+    background-color: #38b000 !important;
+    border: 1px solid #38b000 !important;
+    color: white !important;
+}
+
+.bg-btn-app:hover {
+    background-color: #2e9100 !important;
+    border: 1px solid #2e9100 !important;
+}
+
+.bud_app_logo-bar {
+    font-family: 'Boogaloo', cursive !important;
+    font-size: 1.3em !important;
+}
+
+.text-gray-app {
+    color: #929292;
+}
+
+.modal-content {
+    max-width: 400px;
+}
+
+.f-footer-t {
+    font-size: 13px !important;
+}
+
+.f-footer-b {
+    font-size: 11px !important;
+}
+
+.active:hover {
+    cursor: default !important;
+}
+
+.rounded-table-app {
+    border-radius: 1em;
+    overflow: hidden;
+}
+
+.bg-table-app {
+    background-color: #f1f1f1;
+}
+
+.f-lett-space-min-app {
+    letter-spacing: .025em;
+}
+
+.pie-chart-app {
+    height: 350px;
+    width: 350px;
+    margin: 1em auto;
+    border-radius: 50%;
+    background: conic-gradient(#dad7cd 0.00%, #ffca3a 0.00% 0.55%, #8ac926 0.55% 6.08%, #1982c4 6.08% 13.68%, #6a4c93 13.68% 23.27%, #723d46 23.27% 40.47%, #ff595e 40.47%);
+}
+
+@media (max-width: 576px)
+{
+    body {
+        background-color: white !important;
+    }
+
+    .bud_app_logo {
+        font-size: 3em !important;
+    }
+
+    .border {
+        border: none !important;
+    }
+
+    .border-app {
+        border: 1px solid lightgray !important;
+        background-color: #f8f8f8 !important;
+    }
+
+    .h1-app {
+        font-size: calc(1.2rem + 1.5vw) !important;
+    }
+
+    .h2-app {
+        font-size: calc(1.2rem + 1.1vw) !important;
+    }
+
+    .h4-app {
+        font-size: calc(1.1rem + .3vw) !important;
+    }
+
+    .fs-5-app {
+        font-size: calc(1rem + .3vw) !important;
+    }
+
+    .fs-6-app {
+        font-size: calc(.8rem + .5vw) !important;
+    }
+
+    .font-form-app {
+        font-size: calc(.7rem + .8vw) !important;
+    }
+
+    .f-footer-t {
+        font-size: calc(0.65rem + .3vw) !important;
+    }
+    
+    .f-footer-b {
+        font-size: calc(0.5rem + .3vw) !important;
+    }
+}
