@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['isLogged']) && ($_SESSION['isLogged'] == true)) {
+
+    header('Location: index.php');
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 
@@ -6,12 +18,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sing Up!</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Roboto:wght@100;300;400;500;700;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -20,19 +29,19 @@
 
         <section class="row">
             <div class="row mx-auto">
-                <div
-                    class="container col-xl-4 col-lg-5 col-md-6 col-sm-7 border bg-white text-center mx-auto mt-5 p-3 pb-1">
+                <div class="container col-xl-4 col-lg-5 col-md-6 col-sm-7 border bg-white text-center mx-auto mt-5 p-3 pb-1">
                     <div class="row my-3 mx-auto">
                         <h1 class="fw-bold bud_app_logo mb-3">My BudApp!</h1>
-                        <h2 class="h4 h4-app fw-bolder text-gray-app mb-0">Zarządzaj Swoim Budżetem <span
-                                class="row justify-content-center mx-auto">- bezpłatnie!</span></h2>
+                        <h2 class="h4 h4-app fw-bolder text-gray-app mb-0">Zarządzaj Swoim Budżetem <span class="row justify-content-center mx-auto">- bezpłatnie!</span></h2>
                     </div>
                     <div class="row mx-auto">
-                        <form class="row g-3 px-xl-5 px-lg-4 px-md-3 my-0 mx-auto">
-                            <input class="form-control fs-6 fs-6-app bg-l-gray-app" type="email" name="email"
-                                placeholder="Adres e-mail" required>
-                            <input class="form-control fs-6 fs-6-app bg-l-gray-app" type="password" name="password"
-                                placeholder="Hasło" required>
+                        <form class="row g-3 px-xl-5 px-lg-4 px-md-3 my-0 mx-auto" action="logon.php" method="post">
+                            <input class="form-control fs-6 fs-6-app bg-l-gray-app" type="email" name="email" placeholder="Adres e-mail" required>
+                            <input class="form-control fs-6 fs-6-app bg-l-gray-app" type="password" name="password" placeholder="Hasło" required>
+                            <?php
+                            if (isset($_SESSION['error']))
+                                echo $_SESSION['error'];
+                            ?>
                             <div class="row mx-auto my-4">
                                 <button class="fs-6 fs-6-app fw-bolder btn bg-btn-app w-75 mx-auto">Zaloguj się</button>
                             </div>
@@ -43,8 +52,7 @@
             <div class="row mx-auto">
                 <div class="container col-xl-4 col-lg-5 col-md-6 col-sm-7 border bg-white text-center mx-auto my-2">
                     <p class="fs-6 fs-6-app fw-light my-3">Nie masz konta?
-                        <a class="text-decoration-none text-primary fw-light"
-                            href="./registration.html">Zarejestruj się!</a>
+                        <a class="text-decoration-none text-primary fw-light" href="./registration.html">Zarejestruj się!</a>
                     </p>
                 </div>
             </div>
@@ -74,12 +82,8 @@
     </main>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </body>
 
 </html>
