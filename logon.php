@@ -2,8 +2,7 @@
 
 session_start();
 
-if ((!isset($_POST['email'])) || (!isset($_POST['password'])))
-{
+if ((!isset($_POST['email'])) || (!isset($_POST['password']))) {
     header('Location: login.php');
     exit();
 }
@@ -18,9 +17,11 @@ if ($connection->connect_errno != 0) {
     $email = htmlentities($_POST['email'], ENT_QUOTES, "UTF-8");
     $password = htmlentities($_POST['password'], ENT_QUOTES, "UTF-8");
 
-    $sqlQuerySelectedUser = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-
-    if ($queryResult = @$connection->query($sqlQuerySelectedUser)) {
+    if ($queryResult = @$connection->query(sprintf(
+        "SELECT * FROM users WHERE email='$email' AND password='$password'",
+        mysqli_real_escape_string($connection, $email),
+        mysqli_real_escape_string($connection, $password)
+    ))) {
 
         $userNumbers = $queryResult->num_rows;
         if ($userNumbers > 0) {
