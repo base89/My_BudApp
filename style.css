@@ -41,6 +41,10 @@ body {
     max-width: 400px;
 }
 
+.f-error {
+    font-size: 14px !important;
+}
+
 .f-footer-t {
     font-size: 13px !important;
 }
@@ -72,6 +76,10 @@ body {
     margin: 1em auto;
     border-radius: 50%;
     background: conic-gradient(#dad7cd 0.00%, #ffca3a 0.00% 0.55%, #8ac926 0.55% 6.08%, #1982c4 6.08% 13.68%, #6a4c93 13.68% 23.27%, #723d46 23.27% 40.47%, #ff595e 40.47%);
+}
+
+.captcha {
+    display: inline-block;
 }
 
 @media (max-width: 576px)
@@ -115,6 +123,10 @@ body {
 
     .font-form-app {
         font-size: calc(.7rem + .8vw) !important;
+    }
+
+    .f-error {
+        font-size: calc(0.65rem + .5vw) !important;
     }
 
     .f-footer-t {

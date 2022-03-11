@@ -10,5 +10,5 @@ function setCurrentDate() {
 
     let today = currentDate.getFullYear() + `-${month}-${day}`;
 
-    document.querySelector('#inputExpenceDate').value = today;
+    document.querySelector('input[type="date"]').value = today;
 }

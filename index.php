@@ -41,8 +41,8 @@ if (!isset($_SESSION['isLogged']))
                 </button>
                 <div class="collapse navbar-collapse" id="nav_menu">
                     <div class="navbar-nav me-auto">
-                        <a class="nav-item nav-link active" href="./index.html"> Menu Główne </a>
-                        <a class="nav-item nav-link" href="./add_income.html"> Dodaj przychód </a>
+                        <a class="nav-item nav-link active" href="./index.php"> Menu Główne </a>
+                        <a class="nav-item nav-link" href="./add_income.php"> Dodaj przychód </a>
                         <a class="nav-item nav-link" href="./add_expence.html"> Dodaj wydatek </a>
                         <a class="nav-item nav-link" href="./display_balance.html"> Przeglądaj bilans </a>
                     </div>
@@ -66,7 +66,7 @@ if (!isset($_SESSION['isLogged']))
                 <h3 class="h4 h4-app fw-bold text-muted">Co chcesz zrobić?</h3>
                 <ul class="list-unstyled mb-5">
                     <li>
-                        <a href="./add_income.html" class="btn w-50 bg-btn-app mt-3 my-1" tabindex="-1" role="button" aria-disabled="true">Dodaj przychód</a>
+                        <a href="./add_income.php" class="btn w-50 bg-btn-app mt-3 my-1" tabindex="-1" role="button" aria-disabled="true">Dodaj przychód</a>
                     </li>
                     <li>
                         <a href="./add_expence.html" class="btn w-50 bg-btn-app my-1" tabindex="-1" role="button" aria-disabled="true">Dodaj
