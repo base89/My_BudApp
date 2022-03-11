@@ -2,11 +2,24 @@
 
 session_start();
 
-if (isset($_SESSION['isLogged']) && ($_SESSION['isLogged'] == true)) {
+if (!isset($_SESSION['isRegistered'])) {
 
-    header('Location: index.php');
+    header('Location: registration.php');
     exit();
+} else {
+
+    unset($_SESSION['isRegistered']);
 }
+
+if (isset($_SESSION['input_username'])) unset($_SESSION['input_username']);
+if (isset($_SESSION['input_email'])) unset($_SESSION['input_email']);
+if (isset($_SESSION['input_password'])) unset($_SESSION['input_password']);
+if (isset($_SESSION['input_password2'])) unset($_SESSION['input_password2']);
+
+if (isset($_SESSION['error_username'])) unset($_SESSION['error_username']);
+if (isset($_SESSION['error_email'])) unset($_SESSION['error_email']);
+if (isset($_SESSION['error_password'])) unset($_SESSION['error_password']);
+if (isset($_SESSION['error_bot'])) unset($_SESSION['error_bot']);
 
 ?>
 
@@ -17,7 +30,7 @@ if (isset($_SESSION['isLogged']) && ($_SESSION['isLogged'] == true)) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sing Up!</title>
+    <title>Registration Confirmation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
@@ -35,24 +48,22 @@ if (isset($_SESSION['isLogged']) && ($_SESSION['isLogged'] == true)) {
                         <h2 class="h4 h4-app fw-bolder text-gray-app mb-0">Zarządzaj Swoim Budżetem <span class="row justify-content-center mx-auto">- bezpłatnie!</span></h2>
                     </div>
                     <div class="row mx-auto">
-                        <form class="row g-3 px-xl-5 px-lg-4 px-md-3 my-0 mx-auto" action="logon.php" method="post">
-                            <input class="form-control fs-6 fs-6-app bg-l-gray-app" type="email" name="email" placeholder="Adres e-mail" required>
-                            <input class="form-control fs-6 fs-6-app bg-l-gray-app" type="password" name="password" placeholder="Hasło" required>
-                            <?php
-                            if (isset($_SESSION['error']))
-                                echo $_SESSION['error'];
-                            ?>
-                            <div class="row mx-auto my-4">
-                                <button class="fs-6 fs-6-app fw-bolder btn bg-btn-app w-75 mx-auto">Zaloguj się</button>
-                            </div>
-                        </form>
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Potwierdzenie rejestracji!</h4>
+                            <p>Twoja rejestracja w naszym serwisie przebiegła pomyślnie.</p>
+                            <hr>
+                            <p>Aby rozpocząć korzystanie z aplikacji kliknij
+                                <a href="./login.html" class="alert-link">Zaloguj się!</a> używając podanego adresu e-mail oraz hasła.
+                            </p>
+                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="row mx-auto">
                 <div class="container col-xl-4 col-lg-5 col-md-6 col-sm-7 border bg-white text-center mx-auto my-2">
-                    <p class="fs-6 fs-6-app fw-light my-3">Nie masz konta?
-                        <a class="text-decoration-none text-primary fw-light" href="./registration.php">Zarejestruj się!</a>
+                    <p class="fs-6 fs-6-app fw-light my-3">Posiadasz już konto.
+                        <a class="text-decoration-none text-primary fw-light" href="./login.php">Zaloguj się!</a>
                     </p>
                 </div>
             </div>
