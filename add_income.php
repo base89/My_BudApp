@@ -58,8 +58,26 @@ if (isset($_POST['inputIncomeAmount'])) {
 
     if ($isGood) {
 
-        $_SESSION['new_income_alert'] = '<div class="container col-xl-4 col-lg-5 col-md-6 col-sm-8 my-4 mx-auto text-center">
-            <div class="alert alert-success" role="alert"><h4 class="alert-heading">Potwierdzenie</h4><p>Dodano nowy dochód!</p></div></div>';
+        require_once "connect.php";
+
+        try {
+
+            $connection = new PDO("mysql: host = {$connect['host']}; dbname = {$connect['db_user']}; charset = utf8", $connect['db_user'], $connect['db_password'],
+                        [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    
+            if ($connection) {
+
+            
+
+                $_SESSION['new_income_alert'] = '<div class="container col-xl-4 col-lg-5 col-md-6 col-sm-8 my-4 mx-auto text-center">
+                <div class="alert alert-success" role="alert"><h4 class="alert-heading">Potwierdzenie</h4><p>Dodano nowy dochód!</p></div></div>';
+            }
+
+        } catch (PDOException $error) {
+
+            echo $error->getMessage();
+            exit('Database error');
+        }
     }
 }
 ?>

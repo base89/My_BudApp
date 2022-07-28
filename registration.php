@@ -7,6 +7,7 @@ if (isset($_POST['email'])) {
     $isGood = true;
 
     $username = $_POST['username'];
+
     if ((strlen($username) < 3) || (strlen($username) > 20)) {
 
         $isGood = false;
@@ -20,8 +21,9 @@ if (isset($_POST['email'])) {
     }
 
     $email = $_POST['email'];
-    $secureEmail = filter_var($email, FILTER_SANITIZE_EMAIL);
-    if (!(filter_var($secureEmail, FILTER_VALIDATE_EMAIL)) || ($secureEmail != $email)) {
+    $secureEmail = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+
+    if (!$secureEmail || ($secureEmail != $email)) {
 
         $isGood = false;
         $_SESSION['error_email'] = '<span class="text-danger f-error mt-1">Podaj poprawny adres e-mail</span>';
@@ -29,6 +31,7 @@ if (isset($_POST['email'])) {
 
     $password = $_POST['password'];
     $password2 = $_POST['password2'];
+
     if ((strlen($password) < 8) || (strlen($password) > 20)) {
 
         $isGood = false;
@@ -61,65 +64,64 @@ if (isset($_POST['email'])) {
     $_SESSION['input_email'] = $email;
 
     require_once "connect.php";
-    mysqli_report(MYSQLI_REPORT_STRICT);
 
     try {
 
-        $connection = new mysqli($host, $db_user, $db_password, $db_name);
-        if ($connection->connect_errno != 0) {
+        $connection = new PDO("mysql:host = {$connect['host']}; dbname = {$connect['db_user']}; charset = utf8", $connect['db_user'], $connect['db_password'],
+                    [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-            throw new Exception(mysqli_connect_errno());
-        } else {
+        if ($connection) {
 
-            $queryResult = $connection->query("SELECT id FROM users WHERE email='$email'");
-            if (!$queryResult)
-                throw new Exception($connection->error);
+            $queryResult = $connection->prepare('SELECT id FROM users WHERE email = :email');
+            $queryResult->bindValue(':email', $email, PDO::PARAM_STR);
 
-            $emailNumbers = $queryResult->num_rows;
-            if ($emailNumbers > 0) {
-                $isGood = false;
-                $_SESSION['error_email'] = '<span class="text-danger f-error mt-1">Istnieje konto przypisane do tego adresu e-mail</span>';
-            }
+            if ($queryResult->execute()) {
 
-            $queryResult = $connection->query("SELECT id FROM users WHERE username='$username'");
-            if (!$queryResult)
-                throw new Exception($connection->error);
+                $emailNumbers = $queryResult->rowCount();
 
-            $usernameNumbers = $queryResult->num_rows;
-            if ($usernameNumbers > 0) {
-                $isGood = false;
-                $_SESSION['error_username'] = '<span class="text-danger f-error mt-1">Istnieje konto o takiej nazwie</span>';
-            }
+                if ($emailNumbers > 0) {
+                    $isGood = false;
+                    $_SESSION['error_email'] = '<span class="text-danger f-error mt-1">Istnieje konto przypisane do tego adresu e-mail</span>';
+                }
 
-            if ($isGood) {
+                $queryResult = $connection->prepare('SELECT id FROM users WHERE username = :username');
+                $queryResult->bindValue(':username', $username, PDO::PARAM_STR);
 
-                if ($connection->query("INSERT INTO users VALUES (NULL, '$username', '$hashedPassword', '$email')")) {
+                if ($queryResult->execute()) {
 
-                    $expenseQuery = "INSERT INTO expenses_category_assigned_to_users(user_id, name) 
-                    SELECT users.id AS user_id, de.name FROM users CROSS JOIN expenses_category_default AS de WHERE users.username='$username'";
-                    $incomeQuery = "INSERT INTO incomes_category_assigned_to_users(user_id, name) 
-                    SELECT users.id AS user_id, de.name FROM users CROSS JOIN incomes_category_default AS de WHERE users.username='$username'";
-                    $paymentQuery = "INSERT INTO payment_methods_assigned_to_users(user_id, name) 
-                    SELECT users.id AS user_id, de.name FROM users CROSS JOIN payment_methods_default AS de WHERE users.username='$username'";
+                    $usernameNumbers = $queryResult->rowCount();
 
-                    if ($connection->query($expenseQuery) && $connection->query($incomeQuery) && $connection->query($paymentQuery)) {
-
-                        $connection->commit();
-                        $_SESSION['isRegistered'] = true;
-                        header('Location: confirmation.php');
+                    if ($usernameNumbers > 0) {
+                        $isGood = false;
+                        $_SESSION['error_username'] = '<span class="text-danger f-error mt-1">Istnieje konto o takiej nazwie</span>';
                     }
-                } else {
 
-                    throw new Exception($connection->error);
+                    if ($isGood) {
+
+                        if ($connection->query("INSERT INTO users VALUES (NULL, '$username', '$hashedPassword', '$email')")) {
+
+                            $expenseQuery = "INSERT INTO expenses_category_assigned_to_users(user_id, name) 
+                            SELECT users.id AS user_id, de.name FROM users CROSS JOIN expenses_category_default AS de WHERE users.username='$username'";
+                            $incomeQuery = "INSERT INTO incomes_category_assigned_to_users(user_id, name) 
+                            SELECT users.id AS user_id, de.name FROM users CROSS JOIN incomes_category_default AS de WHERE users.username='$username'";
+                            $paymentQuery = "INSERT INTO payment_methods_assigned_to_users(user_id, name) 
+                            SELECT users.id AS user_id, de.name FROM users CROSS JOIN payment_methods_default AS de WHERE users.username='$username'";
+
+                            if ($connection->query($expenseQuery) && $connection->query($incomeQuery) && $connection->query($paymentQuery)) {
+
+                                $connection->commit();
+                                $_SESSION['isRegistered'] = true;
+                                header('Location: confirmation.php');
+                            }
+                        }
+                    }
                 }
             }
-
-            $connection->close();
         }
-    } catch (Exception $error) {
+    } catch (PDOException $error) {
 
-        echo '<span class="text-danger">Błąd serwera. Przepraszamy za trudności i prosimy zarejestrować się w innym terminie.</span>';
-        echo '<br />Informacja developerska: ' . $error;
+        echo $error->getMessage();
+        exit('Database error');
     }
 }
 
