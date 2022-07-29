@@ -59,6 +59,7 @@ if (isset($_POST['inputIncomeAmount'])) {
     if ($isGood) {
 
         $connect = require_once "connect.php";
+        $userId = $_SESSION['id'];
 
         try {
 
@@ -67,16 +68,20 @@ if (isset($_POST['inputIncomeAmount'])) {
     
             if ($connection) {
 
-            
+                $insertQuery = "INSERT INTO incomes VALUES (NULL, '$userId', (SELECT id FROM incomes_category_assigned_to_users 
+                WHERE user_id ='$userId' AND name ='$incomeCategory'),'$incomeAmount','$incomeDate','$incomeComment')";
+
+                if ($connection->query($insertQuery)) {
 
                 $_SESSION['new_income_alert'] = '<div class="container col-xl-4 col-lg-5 col-md-6 col-sm-8 my-4 mx-auto text-center">
                 <div class="alert alert-success" role="alert"><h4 class="alert-heading">Potwierdzenie</h4><p>Dodano nowy dochód!</p></div></div>';
+                }
             }
 
         } catch (PDOException $error) {
 
             echo $error->getMessage();
-            exit('Database error');
+            exit(' Wystąpił błąd! Spróbuj ponownie.');
         }
     }
 }
