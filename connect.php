@@ -6,5 +6,4 @@ return [
 'db_user' => 'root',
 'db_password' => '',
 'db_name' => 'personal_budget'
-
 ];
