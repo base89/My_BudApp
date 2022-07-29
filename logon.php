@@ -12,8 +12,8 @@ $connect = require_once 'connect.php';
 
 try {
 
-    $connection = new PDO("mysql: host = {$connect['host']}; dbname = {$connect['db_name']}; charset = utf8", $connect['db_user'], $connect['db_password'],
-                [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $connection = new PDO("mysql:host={$connect['host']};dbname={$connect['db_name']};charset=utf8", $connect['db_user'], $connect['db_password'],
+                    [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
     if ($connection) {
 
