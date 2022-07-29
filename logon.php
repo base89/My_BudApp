@@ -55,5 +55,5 @@ try {
 } catch (PDOException $error) {
 
     echo $error->getMessage();
-    exit('Database error');
+    exit(' Wystąpił błąd podczas logowania! Spróbuj ponownie.');
 }

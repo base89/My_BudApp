@@ -121,7 +121,7 @@ if (isset($_POST['email'])) {
     } catch (PDOException $error) {
 
         echo $error->getMessage();
-        exit('Database error');
+        exit(' Wystąpił błąd podczas rejestracji! Spróbuj ponownie.');
     }
 }
 
