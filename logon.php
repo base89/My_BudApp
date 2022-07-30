@@ -30,7 +30,7 @@ try {
 
                 $dataRow = $queryResult->fetch();
 
-                if (password_verify($_POST['password'], $dataRow['password'])) {
+                if (password_verify($password, $dataRow['password'])) {
 
                     $_SESSION['isLogged'] = true;
                     $_SESSION['id'] = $dataRow['id'];
@@ -42,12 +42,12 @@ try {
                     header('Location: index.php');
                 } else {
 
-                    $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło</span>';
+                    $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło ' . $password . ' ' . $dataRow['password'] . '</span>';
                     header('Location: login.php');
                 }
             } else {
 
-                $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło</span>';
+                $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło 2</span>';
                 header('Location: login.php');
             }
         }

@@ -41,6 +41,7 @@ if (isset($_SESSION['isLogged']) && ($_SESSION['isLogged'] == true)) {
                             <?php
                             if (isset($_SESSION['error']))
                                 echo $_SESSION['error'];
+                                unset($_SESSION['error']);
                             ?>
                             <div class="row mx-auto my-4">
                                 <button class="fs-6 fs-6-app fw-bolder btn bg-btn-app w-75 mx-auto">Zaloguj się</button>

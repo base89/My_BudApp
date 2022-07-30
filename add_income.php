@@ -121,8 +121,8 @@ if (isset($_POST['inputIncomeAmount'])) {
                     <div class="navbar-nav me-auto">
                         <a class="nav-item nav-link" href="./index.php"> Menu Główne </a>
                         <a class="nav-item nav-link active" href="./add_income.php"> Dodaj przychód </a>
-                        <a class="nav-item nav-link" href="./add_expence.html"> Dodaj wydatek </a>
-                        <a class="nav-item nav-link" href="./display_balance.html"> Przeglądaj bilans </a>
+                        <a class="nav-item nav-link" href="./add_expence.php"> Dodaj wydatek </a>
+                        <a class="nav-item nav-link" href="./display_balance.php"> Przeglądaj bilans </a>
                     </div>
                     <div class="navbar-nav ms-auto">
                         <a class="nav-item nav-link" href="#"> Ustawienia </a>
