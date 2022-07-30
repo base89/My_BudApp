@@ -12,8 +12,8 @@ $connect = require_once 'connect.php';
 
 try {
 
-    $connection = new PDO("mysql: host = {$connect['host']}; dbname = {$connect['db_name']}; charset = utf8", $connect['db_user'], $connect['db_password'],
-                [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $connection = new PDO("mysql:host={$connect['host']};dbname={$connect['db_name']};charset=utf8", $connect['db_user'], $connect['db_password'],
+                    [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
     if ($connection) {
 
@@ -30,7 +30,7 @@ try {
 
                 $dataRow = $queryResult->fetch();
 
-                if (password_verify($_POST['password'], $dataRow['password'])) {
+                if (password_verify($password, $dataRow['password'])) {
 
                     $_SESSION['isLogged'] = true;
                     $_SESSION['id'] = $dataRow['id'];
@@ -42,12 +42,12 @@ try {
                     header('Location: index.php');
                 } else {
 
-                    $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło</span>';
+                    $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło ' . $password . ' ' . $dataRow['password'] . '</span>';
                     header('Location: login.php');
                 }
             } else {
 
-                $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło</span>';
+                $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło 2</span>';
                 header('Location: login.php');
             }
         }
@@ -55,5 +55,5 @@ try {
 } catch (PDOException $error) {
 
     echo $error->getMessage();
-    exit('Database error');
+    exit(' Wystąpił błąd podczas logowania! Spróbuj ponownie.');
 }

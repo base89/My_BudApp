@@ -59,24 +59,29 @@ if (isset($_POST['inputIncomeAmount'])) {
     if ($isGood) {
 
         $connect = require_once "connect.php";
+        $userId = $_SESSION['id'];
 
         try {
-
-            $connection = new PDO("mysql: host = {$connect['host']}; dbname = {$connect['db_name']}; charset = utf8", $connect['db_user'], $connect['db_password'],
+            
+            $connection = new PDO("mysql:host={$connect['host']};dbname={$connect['db_name']};charset=utf8", $connect['db_user'], $connect['db_password'],
                         [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     
             if ($connection) {
 
-            
+                $insertQuery = "INSERT INTO incomes VALUES (NULL, '$userId', (SELECT id FROM incomes_category_assigned_to_users 
+                WHERE user_id ='$userId' AND name ='$incomeCategory'),'$incomeAmount','$incomeDate','$incomeComment')";
+
+                if ($connection->query($insertQuery)) {
 
                 $_SESSION['new_income_alert'] = '<div class="container col-xl-4 col-lg-5 col-md-6 col-sm-8 my-4 mx-auto text-center">
                 <div class="alert alert-success" role="alert"><h4 class="alert-heading">Potwierdzenie</h4><p>Dodano nowy dochód!</p></div></div>';
+                }
             }
 
         } catch (PDOException $error) {
 
             echo $error->getMessage();
-            exit('Database error');
+            exit(' Wystąpił błąd! Spróbuj ponownie.');
         }
     }
 }
@@ -116,8 +121,8 @@ if (isset($_POST['inputIncomeAmount'])) {
                     <div class="navbar-nav me-auto">
                         <a class="nav-item nav-link" href="./index.php"> Menu Główne </a>
                         <a class="nav-item nav-link active" href="./add_income.php"> Dodaj przychód </a>
-                        <a class="nav-item nav-link" href="./add_expence.html"> Dodaj wydatek </a>
-                        <a class="nav-item nav-link" href="./display_balance.html"> Przeglądaj bilans </a>
+                        <a class="nav-item nav-link" href="./add_expence.php"> Dodaj wydatek </a>
+                        <a class="nav-item nav-link" href="./display_balance.php"> Przeglądaj bilans </a>
                     </div>
                     <div class="navbar-nav ms-auto">
                         <a class="nav-item nav-link" href="#"> Ustawienia </a>

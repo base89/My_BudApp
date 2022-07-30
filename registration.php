@@ -67,7 +67,7 @@ if (isset($_POST['email'])) {
 
     try {
 
-        $connection = new PDO("mysql: host = {$connect['host']}; dbname = {$connect['db_name']}; charset = utf8", $connect['db_user'], $connect['db_password'],
+        $connection = new PDO("mysql:host={$connect['host']};dbname={$connect['db_name']};charset=utf8", $connect['db_user'], $connect['db_password'],
                     [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
         if ($connection) {
@@ -109,7 +109,6 @@ if (isset($_POST['email'])) {
 
                             if ($connection->query($expenseQuery) && $connection->query($incomeQuery) && $connection->query($paymentQuery)) {
 
-                                $connection->commit();
                                 $_SESSION['isRegistered'] = true;
                                 header('Location: confirmation.php');
                             }
@@ -121,7 +120,7 @@ if (isset($_POST['email'])) {
     } catch (PDOException $error) {
 
         echo $error->getMessage();
-        exit('Database error');
+        exit(' Wystąpił błąd podczas rejestracji! Spróbuj ponownie.');
     }
 }
 

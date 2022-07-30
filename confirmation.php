@@ -53,7 +53,7 @@ if (isset($_SESSION['error_bot'])) unset($_SESSION['error_bot']);
                             <p>Twoja rejestracja w naszym serwisie przebiegła pomyślnie.</p>
                             <hr>
                             <p>Aby rozpocząć korzystanie z aplikacji kliknij
-                                <a href="./login.html" class="alert-link">Zaloguj się!</a> używając podanego adresu e-mail oraz hasła.
+                                <a href="./login.php" class="alert-link">Zaloguj się!</a> używając podanego adresu e-mail oraz hasła.
                             </p>
                         </div>
 
