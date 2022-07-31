@@ -212,18 +212,18 @@ if (isset($_POST['inputExpenceAmount'])) {
                                 <option value="transport">Transport</option>
                                 <option value="telecommunication">Telekomunikacja</option>
                                 <option value="healthcare">Opieka zdrowotna</option>
-                                <option value="cloth">Ubranie</option>
+                                <option value="clothes">Ubranie</option>
                                 <option value="hygiene">Higiena</option>
                                 <option value="children">Dzieci</option>
                                 <option value="entertainment">Rozrywka</option>
-                                <option value="tour">Wycieczka</option>
+                                <option value="trip">Wycieczka</option>
                                 <option value="training">Szkolenia</option>
                                 <option value="books">Książki</option>
                                 <option value="savings">Oszczędności</option>
                                 <option value="retirement">Na złotą jesień, czyli emeryturę</option>
                                 <option value="repayment">Spłata długów</option>
                                 <option value="donation">Darowizna</option>
-                                <option value="other">Inne</option>
+                                <option value="another">Inne</option>
                             </select>
                         </div>
                         <?php
