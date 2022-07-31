@@ -8,6 +8,91 @@ if (!isset($_SESSION['isLogged'])) {
     exit();
 }
 
+if (isset($_POST['inputExpenceAmount'])) {
+
+    $isGood = true;
+
+    $expenceAmount = $_POST['inputExpenceAmount'];
+    if (is_numeric($expenceAmount)) {
+
+        $expenceAmount = round($expenceAmount, 2);
+    } else {
+
+        $isGood = false;
+        $_SESSION['error_amount'] = '<span class="text-danger f-error mt-1">Nieprawidłowa kwota wydatku</span>';
+    }
+
+    $maxAmount = 2147483647;
+    if ($expenceAmount > $maxAmount) {
+
+        $isGood = false;
+        $_SESSION['error_amount'] = '<span class="text-danger f-error mt-1">Kwota jest zbyt duża</span>';
+    }
+
+    $expenceDate = $_POST['inputExpenceDate'];
+    if ($expenceDate == NULL) {
+
+        $isGood = false;
+        $_SESSION['error_date'] = '<span class="text-danger f-error mt-1">Nie wprowadzono daty wydatku</span>';
+    }
+
+    $currentDate = date('Y-m-d');
+    if ($expenceDate > $currentDate) {
+
+        $isGood = false;
+        $_SESSION['error_date'] = '<span class="text-danger f-error mt-1">Nieprawidłowa data wydatku</span>';
+    }
+
+    $expencePaymentMethod = $_POST['inputPaymentMethod'];
+    if ($expencePaymentMethod == NULL) {
+
+        $isGood = false;
+        $_SESSION['error_method'] = '<span class="text-danger f-error mt-1">Nie wprowadzono sposobu płatności</span>';
+    }
+
+    $expenceCategory = $_POST['inputExpenceCategory'];
+    if ($expenceCategory == NULL) {
+
+        $isGood = false;
+        $_SESSION['error_category'] = '<span class="text-danger f-error mt-1">Nie wprowadzono kategorii wydatku</span>';
+    }
+
+    $expenceComment = $_POST['inputExpenceComment'];
+    if (strlen($expenceComment) > 100) {
+        $isGood = false;
+        $_SESSION['error_comment'] = '<span class="text-danger f-error mt-1">Komentarz jest zbyt długi</span>';
+    }
+
+    if ($isGood) {
+
+        $connect = require_once "connect.php";
+        $userId = $_SESSION['id'];
+
+        try {
+            
+            $connection = new PDO("mysql:host={$connect['host']};dbname={$connect['db_name']};charset=utf8", $connect['db_user'], $connect['db_password'],
+                        [PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    
+            if ($connection) {
+
+                $insertQuery = "INSERT INTO expences VALUES (NULL, '$userId', (SELECT id FROM expenses_category_assigned_to_users 
+                WHERE user_id ='$userId' AND name ='$expenceCategory'), (SELECT id FROM payment_methods_assigned_to_users 
+                WHERE user_id ='$userId' AND name ='$expencePaymentMethod'),'$expenceAmount','$expenceDate','$expenceComment')";
+
+                if ($connection->query($insertQuery)) {
+
+                $_SESSION['new_expence_alert'] = '<div class="container col-xl-4 col-lg-5 col-md-6 col-sm-8 my-4 mx-auto text-center">
+                <div class="alert alert-success" role="alert"><h4 class="alert-heading">Potwierdzenie</h4><p>Dodano nowy wydatek!</p></div></div>';
+                }
+            }
+
+        } catch (PDOException $error) {
+
+            echo $error->getMessage();
+            exit(' Wystąpił błąd! Spróbuj ponownie.');
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,10 +130,10 @@ if (!isset($_SESSION['isLogged'])) {
                 </button>
                 <div class="collapse navbar-collapse" id="nav_menu">
                     <div class="navbar-nav me-auto">
-                        <a class="nav-item nav-link" href="./index.html"> Menu Główne </a>
-                        <a class="nav-item nav-link" href="./add_income.html"> Dodaj przychód </a>
-                        <a class="nav-item nav-link active" href="./add_expence.html"> Dodaj wydatek </a>
-                        <a class="nav-item nav-link" href="./display_balance.html"> Przeglądaj bilans </a>
+                        <a class="nav-item nav-link" href="./index.php"> Menu Główne </a>
+                        <a class="nav-item nav-link" href="./add_income.php"> Dodaj przychód </a>
+                        <a class="nav-item nav-link active" href="./add_expence.php"> Dodaj wydatek </a>
+                        <a class="nav-item nav-link" href="./display_balance.php"> Przeglądaj bilans </a>
                     </div>
                     <div class="navbar-nav ms-auto">
                         <a class="nav-item nav-link" href="#"> Ustawienia </a>
@@ -59,15 +144,29 @@ if (!isset($_SESSION['isLogged'])) {
         </nav>
 
         <section>
+            <?php
+            if (isset($_SESSION['new_expence_alert'])) {
+
+                echo $_SESSION['new_expence_alert'];
+                unset($_SESSION['new_expence_alert']);
+            }
+            ?>
             <div class="container col-xl-4 col-lg-5 col-md-6 col-sm-8 border bg-white my-4 mx-auto px-4 text-center">
                 <h2 class="text-wrap h2 h1-app fw-bold my-5 mx-4">Dodaj wydatek</h2>
-                <form class="row g-3">
+                <form class="row g-3" method="post">
                     <div class="row justify-content-start my-2 mx-auto">
                         <label class="col-sm-3 col-form-label text-start" for="inputExpenceAmount">Kwota:</label>
                         <div class="col-sm-9">
                             <input class="form-control" type="number" name="inputExpenceAmount" id="inputExpenceAmount"
                                 min="0" step="0.01" placeholder="np. 99,99" required>
                         </div>
+                        <?php
+                        if (isset($_SESSION['error_amount'])) {
+
+                            echo $_SESSION['error_amount'];
+                            unset($_SESSION['error_amount']);
+                        }
+                        ?>
                     </div>
                     <div class="row justify-content-start my-2 mx-auto">
                         <label class="col-sm-3 col-form-label text-start" for="inputExpenceDate">Data:</label>
@@ -75,6 +174,13 @@ if (!isset($_SESSION['isLogged'])) {
                             <input class="form-control" type="date" name="inputExpenceDate" id="inputExpenceDate"
                                 min="2000-01-01" required>
                         </div>
+                        <?php
+                        if (isset($_SESSION['error_date'])) {
+
+                            echo $_SESSION['error_date'];
+                            unset($_SESSION['error_date']);
+                        }
+                        ?>
                     </div>
                     <div class="row justify-content-start my-2 mx-auto">
                         <label class="col-sm-3 col-form-label text-start" for="inputPaymentMethod">Sposób
@@ -87,6 +193,13 @@ if (!isset($_SESSION['isLogged'])) {
                                 <option value="credit_card">Karta kredytowa</option>
                             </select>
                         </div>
+                        <?php
+                        if (isset($_SESSION['error_method'])) {
+
+                            echo $_SESSION['error_method'];
+                            unset($_SESSION['error_method']);
+                        }
+                        ?>
                     </div>
                     <div class="row justify-content-start my-2 mx-auto">
                         <label class="col-sm-3 col-form-label text-start" for="inputExpenceCategory">Kategoria:</label>
@@ -97,7 +210,7 @@ if (!isset($_SESSION['isLogged'])) {
                                 <option value="food">Żywność</option>
                                 <option value="apartment">Mieszkanie</option>
                                 <option value="transport">Transport</option>
-                                <option value="telecommunications">Telekomunikacja</option>
+                                <option value="telecommunication">Telekomunikacja</option>
                                 <option value="healthcare">Opieka zdrowotna</option>
                                 <option value="cloth">Ubranie</option>
                                 <option value="hygiene">Higiena</option>
@@ -113,6 +226,13 @@ if (!isset($_SESSION['isLogged'])) {
                                 <option value="other">Inne</option>
                             </select>
                         </div>
+                        <?php
+                        if (isset($_SESSION['error_category'])) {
+
+                            echo $_SESSION['error_category'];
+                            unset($_SESSION['error_category']);
+                        }
+                        ?>
                     </div>
                     <div class="row justify-content-start my-2 mx-auto">
                         <label class="col-sm-2 col-form-label text-start" for="inputExpenceComment">Komentarz:</label>
@@ -120,7 +240,13 @@ if (!isset($_SESSION['isLogged'])) {
                             <textarea class="form-control" name="inputExpenceComment" id="inputExpenceComment" cols="30"
                                 rows="3" placeholder="Opcjonalnie..."></textarea>
                         </div>
+                        <?php
+                        if (isset($_SESSION['error_comment'])) {
 
+                            echo $_SESSION['error_comment'];
+                            unset($_SESSION['error_comment']);
+                        }
+                        ?>
                     </div>
                     <div class="row justify-content-center g-3 my-2 mx-auto mb-5">
                         <button class="btn bg-btn-app col-sm-4 col-8 mx-1" type="submit">Dodaj</button>

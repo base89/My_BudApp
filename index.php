@@ -69,7 +69,7 @@ if (!isset($_SESSION['isLogged']))
                         <a href="./add_income.php" class="btn w-50 bg-btn-app mt-3 my-1" tabindex="-1" role="button" aria-disabled="true">Dodaj przychód</a>
                     </li>
                     <li>
-                        <a href="./add_expence.html" class="btn w-50 bg-btn-app my-1" tabindex="-1" role="button" aria-disabled="true">Dodaj
+                        <a href="./add_expence.php" class="btn w-50 bg-btn-app my-1" tabindex="-1" role="button" aria-disabled="true">Dodaj
                             wydatek</a>
                     </li>
                     <li>

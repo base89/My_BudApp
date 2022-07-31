@@ -42,12 +42,12 @@ try {
                     header('Location: index.php');
                 } else {
 
-                    $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło ' . $password . ' ' . $dataRow['password'] . '</span>';
+                    $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło</span>';
                     header('Location: login.php');
                 }
             } else {
 
-                $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło 2</span>';
+                $_SESSION['error'] = '<span class="text-danger f-error mt-1">Nieprawidłowy login lub hasło</span>';
                 header('Location: login.php');
             }
         }
