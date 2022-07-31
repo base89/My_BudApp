@@ -73,7 +73,7 @@ if (!isset($_SESSION['isLogged']))
                             wydatek</a>
                     </li>
                     <li>
-                        <a href="./display_balance.html" class="btn w-50 bg-btn-app my-1" tabindex="-1" role="button" aria-disabled="true">Przeglądaj bilans</a>
+                        <a href="./display_balance.php" class="btn w-50 bg-btn-app my-1" tabindex="-1" role="button" aria-disabled="true">Przeglądaj bilans</a>
                     </li>
                 </ul>
             </div>
