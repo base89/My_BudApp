@@ -126,7 +126,9 @@ if (isset($_POST['inputIncomeAmount'])) {
                     </div>
                     <div class="navbar-nav ms-auto">
                         <a class="nav-item nav-link" href="#"> Ustawienia </a>
-                        <a class="nav-item nav-link" href="#"> Wyloguj się </a>
+                        <a class="nav-item nav-link" href="<?php
+                                                            echo 'logout.php'
+                                                            ?>"> Wyloguj się </a>
                     </div>
                 </div>
             </div>

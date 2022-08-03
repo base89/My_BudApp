@@ -51,8 +51,7 @@ try {
 
     if ($connection) {
 
-        // $userId = $_SESSION['id'];
-        $userId = 1;
+        $userId = $_SESSION['id'];
         $startDate = $_SESSION['periodStartDate'];
         $endDate = $_SESSION['periodEndDate'];
 
