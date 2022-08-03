@@ -82,11 +82,13 @@ session_start();
                                     <div class="modal-body px-4">
                                         <form class="row mx-auto g-3">
                                             <label class="fs-6 fs-6-app text-start ps-0 my-1 mx-auto" for="startDate">Data początkowa</label>
-                                            <input class="form-control my-1 mx-auto font-form-app" id="startDate" name="startDate" type="date" min="2000-01-01" value="<?php echo date('Y-m-d');
-                                                                                                                                                                        ?>" required>
+                                            <input class="form-control my-1 mx-auto font-form-app" id="startDate" name="startDate" type="date" min="2000-01-01" max="<?php echo date('Y-m-d');
+                                                                                                                                                                        ?>" value="<?php echo date('Y-m-d');
+                                                                                                                                                                                    ?>" required>
                                             <label class="fs-6 fs-6-app text-start ps-0 my-1 mx-auto" for="endDate">Data końcowa</label>
-                                            <input class="form-control my-1 mx-auto font-form-app" id="endDate" name="endDate" type="date" min="2000-01-01" value="<?php echo date('Y-m-d');
-                                                                                                                                                                    ?>" required>
+                                            <input class="form-control my-1 mx-auto font-form-app" id="endDate" name="endDate" type="date" min="2000-01-01" max="<?php echo date('Y-m-d');
+                                                                                                                                                                    ?>" value="<?php echo date('Y-m-d');
+                                                                                                                                                                                ?>" required>
                                             <div class="row justify-content-center g-3 my-2 mx-auto mb-3">
                                                 <button class="btn bg-btn-app font-form-app col-sm-5 col-8 mx-1 py-1" type="submit" name="formPeriod" value="selectedPeriod">Wyświetl bilans</button>
                                                 <button class="btn btn-danger font-form-app col-sm-5 col-8 mx-1 py-1" data-bs-dismiss="modal" type="button">Anuluj</button>
@@ -96,11 +98,17 @@ session_start();
                                 </div>
                             </div>
                         </div>
+                        <?php
+                        if (isset($_SESSION['error_date']))
+                            echo $_SESSION['error_date'];
+                        unset($_SESSION['error_date']);
+                        ?>
                     </form>
                 </div>
             </div>
             <div class="container row col-xl-7 col-lg-8 col-sm-10 border bg-white my-4 mx-auto px-4 pb-4 text-center">
-                <h2 class="text-wrap h2 h2-app fw-bold my-5 mx-auto">Przegląd bilansu</h2>
+                <h2 class="text-wrap h2 h2-app fw-bold my-5 mx-auto">Przegląd bilansu<br><?php echo "od " . $_SESSION['periodStartDate'] . " do " . $_SESSION['periodEndDate']
+                                                                                            ?></h2>
                 <div class="container-fluid col-md-5 p-0 me-2">
                     <table class="table table-borderless table-hover table-striped caption-top rounded-table-app">
                         <caption class="fs-5 fw-bold fs-5-app bg-table-app text-dark text-center mb-1">BILANS PRZYCHODÓW</caption>
@@ -113,25 +121,40 @@ session_start();
                         <tbody>
                             <tr>
                                 <th scope="row">Wynagrodzenie</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Salary'])) {
+                                        echo $_SESSION['Salary'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Odsetki bankowe</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Interest'])) {
+                                        echo $_SESSION['Interest'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Sprzedaż na allegro</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Allegro'])) {
+                                        echo $_SESSION['Allegro'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Inne</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Another Incomes'])) {
+                                        echo $_SESSION['Another Incomes'];
+                                    }
+                                    ?></td>
                             </tr>
                         </tbody>
                         <tfoot class="table-warning">
                             <tr>
                                 <th class="border-bottom-0" scope="row">SUMA</th>
-                                <td class="border-bottom-0"></td>
+                                <td class="border-bottom-0"><?php if (isset($_SESSION['incomesSum'])) {
+                                                                echo $_SESSION['incomesSum'];
+                                                            }
+                                                            ?></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -148,77 +171,131 @@ session_start();
                         <tbody>
                             <tr>
                                 <th scope="row">Jedzenie</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Food'])) {
+                                        echo $_SESSION['Food'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Mieszkanie</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Apartment'])) {
+                                        echo $_SESSION['Apartment'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Transport</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Transport'])) {
+                                        echo $_SESSION['Transport'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Telekomunikacja</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Telecommunication'])) {
+                                        echo $_SESSION['Telecommunication'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Opieka zdrowotna</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Healthcare'])) {
+                                        echo $_SESSION['Healthcare'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Ubranie</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Clothes'])) {
+                                        echo $_SESSION['Clothes'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Higiena</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Hygiene'])) {
+                                        echo $_SESSION['Hygiene'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Dzieci</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Children'])) {
+                                        echo $_SESSION['Children'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Rozrywka</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Entertainment'])) {
+                                        echo $_SESSION['Entertainment'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Wycieczka</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Trip'])) {
+                                        echo $_SESSION['Trip'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Szkolenia</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Training'])) {
+                                        echo $_SESSION['Training'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Książki</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Books'])) {
+                                        echo $_SESSION['Books'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Oszczędności</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Savings'])) {
+                                        echo $_SESSION['Savings'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Na emeryturę</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Retirement'])) {
+                                        echo $_SESSION['Retirement'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Spłata długów</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Repayment'])) {
+                                        echo $_SESSION['Repayment'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Darowizna</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Donation'])) {
+                                        echo $_SESSION['Donation'];
+                                    }
+                                    ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Inne wydatki</th>
-                                <td></td>
+                                <td><?php if (isset($_SESSION['Another Expenses'])) {
+                                        echo $_SESSION['Another Expenses'];
+                                    }
+                                    ?></td>
                             </tr>
                         </tbody>
                         <tfoot class="table-warning">
                             <tr>
                                 <th class="border-bottom-0" scope="row">SUMA</th>
-                                <td class="border-bottom-0"></td>
+                                <td class="border-bottom-0"><?php if (isset($_SESSION['expenceSum'])) {
+                                                                echo $_SESSION['expenceSum'];
+                                                            }
+                                                            ?></td>
                             </tr>
                         </tfoot>
                     </table>
