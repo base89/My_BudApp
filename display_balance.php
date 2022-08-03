@@ -307,12 +307,22 @@ session_start();
                             <thead class="table-warning">
                                 <tr>
                                     <th class="border-bottom-0" scope="row">Podsumowanie</th>
-                                    <td></td>
+                                    <td><?php if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
+                                            echo $_SESSION['incomesSum'] - $_SESSION['expenceSum'];
+                                        }
+                                        ?></td>
                                 </tr>
                             </thead>
                             <tfoot class="table-success">
                                 <tr>
-                                    <th colspan="2" class="f-lett-space-min-app bg-green-app">Gratulacje. Świetnie zarządzasz finansami!</th>
+                                    <th colspan="2" class="f-lett-space-min-app bg-green-app"><?php if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
+                                                                                                    if (($_SESSION['incomesSum'] - $_SESSION['expenceSum']) > 0) {
+                                                                                                        echo "Gratulacje. Świetnie zarządzasz finansami!";
+                                                                                                    } else {
+                                                                                                        echo "Wydajesz więcej niż zarobiłeś! Popracuj nad finansami.";
+                                                                                                    }
+                                                                                                }
+                                                                                                ?></th>
                                 </tr>
                             </tfoot>
                         </table>
