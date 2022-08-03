@@ -17,6 +17,11 @@ body {
     color: white !important;
 }
 
+.bg-red-app {
+    background-color: #d70000 !important;
+    color: white !important;
+}
+
 .bg-btn-app {
     background-color: #38b000 !important;
     border: 1px solid #38b000 !important;

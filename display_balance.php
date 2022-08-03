@@ -317,14 +317,21 @@ if (!isset($_SESSION['isLogged'])) {
                             </thead>
                             <tfoot class="table-success">
                                 <tr>
-                                    <th colspan="2" class="f-lett-space-min-app bg-green-app"><?php if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
-                                                                                                    if (($_SESSION['incomesSum'] - $_SESSION['expenceSum']) > 0) {
-                                                                                                        echo "Gratulacje. Świetnie zarządzasz finansami!";
-                                                                                                    } else {
-                                                                                                        echo "Wydajesz więcej niż zarobiłeś! Popracuj nad finansami.";
-                                                                                                    }
-                                                                                                }
-                                                                                                ?></th>
+                                    <th colspan="2" class="f-lett-space-min-app <?php if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
+                                                                                    if (($_SESSION['incomesSum'] - $_SESSION['expenceSum']) > 0) {
+                                                                                        echo "bg-green-app";
+                                                                                    } else {
+                                                                                        echo "bg-red-app";
+                                                                                    }
+                                                                                }
+                                                                                ?>"><?php if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
+                                                                                        if (($_SESSION['incomesSum'] - $_SESSION['expenceSum']) > 0) {
+                                                                                            echo "Gratulacje. Świetnie zarządzasz finansami!";
+                                                                                        } else {
+                                                                                            echo "Wydajesz więcej niż zarobiłeś! Popracuj nad finansami.";
+                                                                                        }
+                                                                                    }
+                                                                                    ?></th>
                                 </tr>
                             </tfoot>
                         </table>
