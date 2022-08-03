@@ -177,7 +177,7 @@ if (isset($_POST['inputIncomeAmount'])) {
                                 <option value="Salary">Wynagrodzenie</option>
                                 <option value="Interest">Inwestycje</option>
                                 <option value="Allegro">Sprzedaż</option>
-                                <option value="Another">Inne</option>
+                                <option value="Another Incomes">Inne</option>
                             </select>
                         </div>
                         <?php

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 31 Lip 2022, 12:02
+-- Czas generowania: 03 Sie 2022, 21:54
 -- Wersja serwera: 10.4.22-MariaDB
 -- Wersja PHP: 8.1.2
 
@@ -65,24 +65,23 @@ CREATE TABLE `expenses_category_default` (
 --
 
 INSERT INTO `expenses_category_default` (`id`, `name`) VALUES
-(1, 'Salary'),
-(2, 'Food'),
-(3, 'Apartment'),
-(4, 'Transport'),
-(5, 'Telecommunication'),
-(6, 'Healthcare'),
-(7, 'Clothes'),
-(8, 'Hygiene'),
-(9, 'Children'),
-(10, 'Entertainment'),
-(11, 'Trip'),
-(12, 'Training'),
-(13, 'Books'),
-(14, 'Savings'),
-(15, 'Retirement'),
-(16, 'Repayment'),
-(17, 'Donation'),
-(18, 'Another');
+(1, 'Food'),
+(2, 'Apartment'),
+(3, 'Transport'),
+(4, 'Telecommunication'),
+(5, 'Healthcare'),
+(6, 'Clothes'),
+(7, 'Hygiene'),
+(8, 'Children'),
+(9, 'Entertainment'),
+(10, 'Trip'),
+(11, 'Training'),
+(12, 'Books'),
+(13, 'Savings'),
+(14, 'Retirement'),
+(15, 'Repayment'),
+(16, 'Donation'),
+(17, 'Another Expenses');
 
 -- --------------------------------------------------------
 
@@ -130,7 +129,7 @@ INSERT INTO `incomes_category_default` (`id`, `name`) VALUES
 (1, 'Salary'),
 (2, 'Interest'),
 (3, 'Allegro'),
-(4, 'Another');
+(4, 'Another Incomes');
 
 -- --------------------------------------------------------
 

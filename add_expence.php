@@ -223,7 +223,7 @@ if (isset($_POST['inputExpenceAmount'])) {
                                 <option value="retirement">Na złotą jesień, czyli emeryturę</option>
                                 <option value="repayment">Spłata długów</option>
                                 <option value="donation">Darowizna</option>
-                                <option value="another">Inne</option>
+                                <option value="another expenses">Inne</option>
                             </select>
                         </div>
                         <?php
