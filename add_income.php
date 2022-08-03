@@ -126,7 +126,9 @@ if (isset($_POST['inputIncomeAmount'])) {
                     </div>
                     <div class="navbar-nav ms-auto">
                         <a class="nav-item nav-link" href="#"> Ustawienia </a>
-                        <a class="nav-item nav-link" href="#"> Wyloguj się </a>
+                        <a class="nav-item nav-link" href="<?php
+                                                            echo 'logout.php'
+                                                            ?>"> Wyloguj się </a>
                     </div>
                 </div>
             </div>
@@ -177,7 +179,7 @@ if (isset($_POST['inputIncomeAmount'])) {
                                 <option value="Salary">Wynagrodzenie</option>
                                 <option value="Interest">Inwestycje</option>
                                 <option value="Allegro">Sprzedaż</option>
-                                <option value="Another">Inne</option>
+                                <option value="Another Incomes">Inne</option>
                             </select>
                         </div>
                         <?php
