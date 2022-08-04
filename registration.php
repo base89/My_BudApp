@@ -156,7 +156,7 @@ if (isset($_POST['email'])) {
                         <h2 class="h4 h4-app fw-bolder text-gray-app mb-0">Zacznij zarządzać Swoim Budżetem <span class="row justify-content-center mx-auto">- bezpłatnie!</span></h2>
                     </div>
                     <div class="row mx-auto">
-                        <form class="row g-3 px-xl-5 px-lg-4 px-md-3 my-0 mx-auto" method="post">
+                        <form class="row g-3 px-xl-4 px-lg-4 px-md-3 my-0 mx-auto" method="post">
                             <input class="form-control fs-6 fs-6-app bg-l-gray-app" type="text" name="username" placeholder="Imię" value="<?php
                                                                                                                                             if (isset($_SESSION['input_username'])) {
 
@@ -214,7 +214,7 @@ if (isset($_POST['email'])) {
                             }
                             ?>
                             <div class="text-center">
-                                <div class="g-recaptcha captcha" data-sitekey="6LeoFr0eAAAAANrUzQIhp3BmcKEHEqbVTv1SWdBg"></div>
+                                <div class="g-recaptcha captcha mx-auto" data-sitekey="6LeoFr0eAAAAANrUzQIhp3BmcKEHEqbVTv1SWdBg"></div>
                                 <?php
                                 if (isset($_SESSION['error_bot'])) {
 
