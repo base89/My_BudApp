@@ -8,6 +8,8 @@ if (!isset($_SESSION['isLogged'])) {
     exit();
 }
 
+print_r($_SESSION['incomes_r']);
+
 ?>
 
 <!DOCTYPE html>
@@ -109,7 +111,9 @@ if (!isset($_SESSION['isLogged'])) {
                 </div>
             </div>
             <div class="container row col-xl-7 col-lg-8 col-sm-10 border bg-white my-4 mx-auto px-4 pb-4 text-center">
-                <h2 class="text-wrap h2 h2-app fw-bold my-5 mx-auto">Przegląd bilansu<br><?php echo "od " . $_SESSION['periodStartDate'] . " do " . $_SESSION['periodEndDate']
+                <h2 class="text-wrap h2 h2-app fw-bold my-5 mx-auto">Przegląd bilansu<br><?php echo "od " . $_SESSION['periodStartDate'] . " do " . $_SESSION['periodEndDate'];
+                                                                                            unset($_SESSION['periodStartDate']);
+                                                                                            unset($_SESSION['periodEndDate']);
                                                                                             ?></h2>
                 <div class="container-fluid col-md-5 p-0 me-2">
                     <table class="table table-borderless table-hover table-striped caption-top rounded-table-app">
@@ -125,6 +129,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Wynagrodzenie</th>
                                 <td><?php if (isset($_SESSION['Salary'])) {
                                         echo $_SESSION['Salary'];
+                                        unset($_SESSION['Salary']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -132,6 +139,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Odsetki bankowe</th>
                                 <td><?php if (isset($_SESSION['Interest'])) {
                                         echo $_SESSION['Interest'];
+                                        unset($_SESSION['Interest']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -139,6 +149,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Sprzedaż na allegro</th>
                                 <td><?php if (isset($_SESSION['Allegro'])) {
                                         echo $_SESSION['Allegro'];
+                                        unset($_SESSION['Allegro']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -146,6 +159,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Inne</th>
                                 <td><?php if (isset($_SESSION['Another Incomes'])) {
                                         echo $_SESSION['Another Incomes'];
+                                        unset($_SESSION['Another Incomes']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -155,6 +171,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th class="border-bottom-0" scope="row">SUMA</th>
                                 <td class="border-bottom-0"><?php if (isset($_SESSION['incomesSum'])) {
                                                                 echo $_SESSION['incomesSum'];
+                                                                unset($_SESSION['incomesSum']);
+                                                            } else {
+                                                                echo "0.00";
                                                             }
                                                             ?></td>
                             </tr>
@@ -175,6 +194,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Jedzenie</th>
                                 <td><?php if (isset($_SESSION['Food'])) {
                                         echo $_SESSION['Food'];
+                                        unset($_SESSION['Food']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -182,6 +204,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Mieszkanie</th>
                                 <td><?php if (isset($_SESSION['Apartment'])) {
                                         echo $_SESSION['Apartment'];
+                                        unset($_SESSION['Apartment']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -189,6 +214,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Transport</th>
                                 <td><?php if (isset($_SESSION['Transport'])) {
                                         echo $_SESSION['Transport'];
+                                        unset($_SESSION['Transport']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -196,6 +224,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Telekomunikacja</th>
                                 <td><?php if (isset($_SESSION['Telecommunication'])) {
                                         echo $_SESSION['Telecommunication'];
+                                        unset($_SESSION['Telecommunication']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -203,6 +234,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Opieka zdrowotna</th>
                                 <td><?php if (isset($_SESSION['Healthcare'])) {
                                         echo $_SESSION['Healthcare'];
+                                        unset($_SESSION['Healthcare']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -210,6 +244,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Ubranie</th>
                                 <td><?php if (isset($_SESSION['Clothes'])) {
                                         echo $_SESSION['Clothes'];
+                                        unset($_SESSION['Clothes']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -217,6 +254,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Higiena</th>
                                 <td><?php if (isset($_SESSION['Hygiene'])) {
                                         echo $_SESSION['Hygiene'];
+                                        unset($_SESSION['Hygiene']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -224,6 +264,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Dzieci</th>
                                 <td><?php if (isset($_SESSION['Children'])) {
                                         echo $_SESSION['Children'];
+                                        unset($_SESSION['Children']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -231,6 +274,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Rozrywka</th>
                                 <td><?php if (isset($_SESSION['Entertainment'])) {
                                         echo $_SESSION['Entertainment'];
+                                        unset($_SESSION['Entertainment']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -238,6 +284,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Wycieczka</th>
                                 <td><?php if (isset($_SESSION['Trip'])) {
                                         echo $_SESSION['Trip'];
+                                        unset($_SESSION['Trip']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -245,6 +294,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Szkolenia</th>
                                 <td><?php if (isset($_SESSION['Training'])) {
                                         echo $_SESSION['Training'];
+                                        unset($_SESSION['Training']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -252,6 +304,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Książki</th>
                                 <td><?php if (isset($_SESSION['Books'])) {
                                         echo $_SESSION['Books'];
+                                        unset($_SESSION['Books']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -259,6 +314,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Oszczędności</th>
                                 <td><?php if (isset($_SESSION['Savings'])) {
                                         echo $_SESSION['Savings'];
+                                        unset($_SESSION['Savings']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -266,6 +324,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Na emeryturę</th>
                                 <td><?php if (isset($_SESSION['Retirement'])) {
                                         echo $_SESSION['Retirement'];
+                                        unset($_SESSION['Retirement']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -273,6 +334,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Spłata długów</th>
                                 <td><?php if (isset($_SESSION['Repayment'])) {
                                         echo $_SESSION['Repayment'];
+                                        unset($_SESSION['Repayment']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -280,6 +344,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Darowizna</th>
                                 <td><?php if (isset($_SESSION['Donation'])) {
                                         echo $_SESSION['Donation'];
+                                        unset($_SESSION['Donation']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -287,6 +354,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th scope="row">Inne wydatki</th>
                                 <td><?php if (isset($_SESSION['Another Expenses'])) {
                                         echo $_SESSION['Another Expenses'];
+                                        unset($_SESSION['Another Expenses']);
+                                    } else {
+                                        echo "0.00";
                                     }
                                     ?></td>
                             </tr>
@@ -296,6 +366,9 @@ if (!isset($_SESSION['isLogged'])) {
                                 <th class="border-bottom-0" scope="row">SUMA</th>
                                 <td class="border-bottom-0"><?php if (isset($_SESSION['expenceSum'])) {
                                                                 echo $_SESSION['expenceSum'];
+                                                                unset($_SESSION['expenceSum']);
+                                                            } else {
+                                                                echo "0.00";
                                                             }
                                                             ?></td>
                             </tr>
@@ -309,28 +382,28 @@ if (!isset($_SESSION['isLogged'])) {
                             <thead class="table-warning">
                                 <tr>
                                     <th class="border-bottom-0" scope="row">Podsumowanie</th>
-                                    <td><?php if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
-                                            echo $_SESSION['incomesSum'] - $_SESSION['expenceSum'];
-                                        }
+                                    <td><?php if (isset($_SESSION['balance']))
+                                            echo $_SESSION['balance'];
                                         ?></td>
                                 </tr>
                             </thead>
                             <tfoot class="table-success">
                                 <tr>
-                                    <th colspan="2" class="f-lett-space-min-app <?php if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
-                                                                                    if (($_SESSION['incomesSum'] - $_SESSION['expenceSum']) > 0) {
+                                    <th colspan="2" class="f-lett-space-min-app <?php if (isset($_SESSION['balance'])) {
+                                                                                    if ($_SESSION['balance'] > 0) {
                                                                                         echo "bg-green-app";
                                                                                     } else {
                                                                                         echo "bg-red-app";
                                                                                     }
                                                                                 }
-                                                                                ?>"><?php if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
-                                                                                        if (($_SESSION['incomesSum'] - $_SESSION['expenceSum']) > 0) {
+                                                                                ?>"><?php if (isset($_SESSION['balance'])) {
+                                                                                        if ($_SESSION['balance'] > 0) {
                                                                                             echo "Gratulacje. Świetnie zarządzasz finansami!";
                                                                                         } else {
                                                                                             echo "Wydajesz więcej niż zarobiłeś! Popracuj nad finansami.";
                                                                                         }
                                                                                     }
+                                                                                    unset($_SESSION['balance']);
                                                                                     ?></th>
                                 </tr>
                             </tfoot>

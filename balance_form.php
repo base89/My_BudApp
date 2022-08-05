@@ -83,21 +83,42 @@ try {
 
             foreach ($incomes as $userIncome) {
 
-                $_SESSION[$userIncome['ic.name']] = $userIncome['SUM(i.amount)'];
+                $_SESSION[$userIncome[0]] = $userIncome[1];
             }
 
-            $incomesSum = $connection->query($incomeSumQuery)->fetch();
-            $_SESSION['incomesSum'] = $incomesSum;
+            if ($incomesSum = $connection->query($incomeSumQuery)->fetch()) {
+
+                if ($incomesSum[0] > 0 && $incomesSum[0] != NULL) {
+
+                    $_SESSION['incomesSum'] = $incomesSum[0];
+                } else {
+
+                    $_SESSION['incomesSum'] = "0.00";
+                }
+            }
 
             $expences = $connection->query($expenceQuery)->fetchAll();
 
             foreach ($expences as $userExpence) {
 
-                $_SESSION[$userExpence['ec.name']] = $userExpence['SUM(e.amount)'];
+                $_SESSION[$userExpence[0]] = $userExpence[1];
             }
 
-            $expenceSum = $connection->query($expenceSumQuery)->fetch();
-            $_SESSION['expenceSum'] = $expenceSum;
+            if ($expenceSum = $connection->query($expenceSumQuery)->fetch()) {
+
+                if ($expenceSum[0] > 0 && $expenceSum[0] != NULL) {
+
+                    $_SESSION['expenceSum'] = $expenceSum[0];
+                } else {
+
+                    $_SESSION['expenceSum'] = "0.00";
+                }
+            }
+
+            if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
+
+                $_SESSION['balance'] = $_SESSION['incomesSum'] - $_SESSION['expenceSum'];
+            }
 
             header('Location: display_balance.php');
         }
