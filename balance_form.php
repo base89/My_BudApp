@@ -79,11 +79,11 @@ try {
 
         if ($connection->query($incomeQuery) && $connection->query($incomeSumQuery) && $connection->query($expenceQuery) && $connection->query($expenceSumQuery)) {
 
-            $incomes = $connection->query($incomeQuery)->fetch(PDO::FETCH_ASSOC);
+            $incomes = $connection->query($incomeQuery)->fetchAll();
 
             foreach ($incomes as $userIncome) {
 
-                $_SESSION[$userIncome['ic.name']] = $userIncome['SUM(i.amount)'];
+                $_SESSION[$userIncome[0]] = $userIncome[1];
             }
 
             if ($incomesSum = $connection->query($incomeSumQuery)->fetch()) {
@@ -93,15 +93,15 @@ try {
                     $_SESSION['incomesSum'] = $incomesSum[0];
                 } else {
 
-                    $_SESSION['incomesSum'] = 0;
+                    $_SESSION['incomesSum'] = "0.00";
                 }
             }
 
-            $expences = $connection->query($expenceQuery)->fetch(PDO::FETCH_ASSOC);
+            $expences = $connection->query($expenceQuery)->fetchAll();
 
             foreach ($expences as $userExpence) {
 
-                $_SESSION[$userExpence['ec.name']] = $userExpence['SUM(e.amount)'];
+                $_SESSION[$userExpence[0]] = $userExpence[1];
             }
 
             if ($expenceSum = $connection->query($expenceSumQuery)->fetch()) {
@@ -111,7 +111,7 @@ try {
                     $_SESSION['expenceSum'] = $expenceSum[0];
                 } else {
 
-                    $_SESSION['expenceSum'] = 0;
+                    $_SESSION['expenceSum'] = "0.00";
                 }
             }
 
