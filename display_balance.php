@@ -8,7 +8,13 @@ if (!isset($_SESSION['isLogged'])) {
     exit();
 }
 
-print_r($_SESSION['incomes_r']);
+if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) {
+
+    $_SESSION['formPeriod'] = "currentMonth";
+
+    header('Location: balance_form.php');
+    exit();
+}
 
 ?>
 
@@ -111,9 +117,11 @@ print_r($_SESSION['incomes_r']);
                 </div>
             </div>
             <div class="container row col-xl-7 col-lg-8 col-sm-10 border bg-white my-4 mx-auto px-4 pb-4 text-center">
-                <h2 class="text-wrap h2 h2-app fw-bold my-5 mx-auto">Przegląd bilansu<br><?php echo "od " . $_SESSION['periodStartDate'] . " do " . $_SESSION['periodEndDate'];
-                                                                                            unset($_SESSION['periodStartDate']);
-                                                                                            unset($_SESSION['periodEndDate']);
+                <h2 class="text-wrap h2 h2-app fw-bold my-5 mx-auto">Przegląd bilansu<br><?php if (isset($_SESSION['periodStartDate']) && isset($_SESSION['periodEndDate'])) {
+                                                                                                echo "od " . $_SESSION['periodStartDate'] . " do " . $_SESSION['periodEndDate'];
+                                                                                                unset($_SESSION['periodStartDate']);
+                                                                                                unset($_SESSION['periodEndDate']);
+                                                                                            }
                                                                                             ?></h2>
                 <div class="container-fluid col-md-5 p-0 me-2">
                     <table class="table table-borderless table-hover table-striped caption-top rounded-table-app">
@@ -125,52 +133,46 @@ print_r($_SESSION['incomes_r']);
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <?php
+                            if (isset($_SESSION['Salary'])) {
+                                echo '<tr>
                                 <th scope="row">Wynagrodzenie</th>
-                                <td><?php if (isset($_SESSION['Salary'])) {
-                                        echo $_SESSION['Salary'];
-                                        unset($_SESSION['Salary']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Salary"];
+                                unset($_SESSION["Salary"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Interest'])) {
+                                echo '<tr>
                                 <th scope="row">Odsetki bankowe</th>
-                                <td><?php if (isset($_SESSION['Interest'])) {
-                                        echo $_SESSION['Interest'];
-                                        unset($_SESSION['Interest']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Interest"];
+                                unset($_SESSION["Interest"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Allegro'])) {
+                                echo '<tr>
                                 <th scope="row">Sprzedaż na allegro</th>
-                                <td><?php if (isset($_SESSION['Allegro'])) {
-                                        echo $_SESSION['Allegro'];
-                                        unset($_SESSION['Allegro']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Allegro"];
+                                unset($_SESSION["Allegro"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Another Incomes'])) {
+                                echo '<tr>
                                 <th scope="row">Inne</th>
-                                <td><?php if (isset($_SESSION['Another Incomes'])) {
-                                        echo $_SESSION['Another Incomes'];
-                                        unset($_SESSION['Another Incomes']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
+                                <td>' . $_SESSION["Another Incomes"];
+                                unset($_SESSION["Another Incomes"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            ?>
                         </tbody>
                         <tfoot class="table-warning">
                             <tr>
                                 <th class="border-bottom-0" scope="row">SUMA</th>
                                 <td class="border-bottom-0"><?php if (isset($_SESSION['incomesSum'])) {
-                                                                echo $_SESSION['incomesSum'];
+                                                                echo number_format($_SESSION['incomesSum'], 2, '.', ' ');;
                                                                 unset($_SESSION['incomesSum']);
                                                             } else {
                                                                 echo "0.00";
@@ -190,182 +192,150 @@ print_r($_SESSION['incomes_r']);
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <?php
+                            if (isset($_SESSION['Food'])) {
+                                echo '<tr>
                                 <th scope="row">Jedzenie</th>
-                                <td><?php if (isset($_SESSION['Food'])) {
-                                        echo $_SESSION['Food'];
-                                        unset($_SESSION['Food']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Food"];
+                                unset($_SESSION["Food"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Apartment'])) {
+                                echo '<tr>
                                 <th scope="row">Mieszkanie</th>
-                                <td><?php if (isset($_SESSION['Apartment'])) {
-                                        echo $_SESSION['Apartment'];
-                                        unset($_SESSION['Apartment']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Apartment"];
+                                unset($_SESSION["Apartment"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Transport'])) {
+                                echo '<tr>
                                 <th scope="row">Transport</th>
-                                <td><?php if (isset($_SESSION['Transport'])) {
-                                        echo $_SESSION['Transport'];
-                                        unset($_SESSION['Transport']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Transport"];
+                                unset($_SESSION["Transport"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Telecommunication'])) {
+                                echo '<tr>
                                 <th scope="row">Telekomunikacja</th>
-                                <td><?php if (isset($_SESSION['Telecommunication'])) {
-                                        echo $_SESSION['Telecommunication'];
-                                        unset($_SESSION['Telecommunication']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Telecommunication"];
+                                unset($_SESSION["Telecommunication"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Healthcare'])) {
+                                echo '<tr>
                                 <th scope="row">Opieka zdrowotna</th>
-                                <td><?php if (isset($_SESSION['Healthcare'])) {
-                                        echo $_SESSION['Healthcare'];
-                                        unset($_SESSION['Healthcare']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Healthcare"];
+                                unset($_SESSION["Healthcare"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Clothes'])) {
+                                echo '<tr>
                                 <th scope="row">Ubranie</th>
-                                <td><?php if (isset($_SESSION['Clothes'])) {
-                                        echo $_SESSION['Clothes'];
-                                        unset($_SESSION['Clothes']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Clothes"];
+                                unset($_SESSION["Clothes"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Hygiene'])) {
+                                echo '<tr>
                                 <th scope="row">Higiena</th>
-                                <td><?php if (isset($_SESSION['Hygiene'])) {
-                                        echo $_SESSION['Hygiene'];
-                                        unset($_SESSION['Hygiene']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Hygiene"];
+                                unset($_SESSION["Hygiene"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Children'])) {
+                                echo '<tr>
                                 <th scope="row">Dzieci</th>
-                                <td><?php if (isset($_SESSION['Children'])) {
-                                        echo $_SESSION['Children'];
-                                        unset($_SESSION['Children']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Children"];
+                                unset($_SESSION["Children"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Entertainment'])) {
+                                echo '<tr>
                                 <th scope="row">Rozrywka</th>
-                                <td><?php if (isset($_SESSION['Entertainment'])) {
-                                        echo $_SESSION['Entertainment'];
-                                        unset($_SESSION['Entertainment']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Wycieczka</th>
-                                <td><?php if (isset($_SESSION['Trip'])) {
-                                        echo $_SESSION['Trip'];
-                                        unset($_SESSION['Trip']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Entertainment"];
+                                unset($_SESSION["Entertainment"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Trip'])) {
+                                echo '<tr>
+                                <th scope="row">Wycieczki</th>
+                                <td>' . $_SESSION["Trip"];
+                                unset($_SESSION["Trip"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Training'])) {
+                                echo '<tr>
                                 <th scope="row">Szkolenia</th>
-                                <td><?php if (isset($_SESSION['Training'])) {
-                                        echo $_SESSION['Training'];
-                                        unset($_SESSION['Training']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Training"];
+                                unset($_SESSION["Training"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Books'])) {
+                                echo '<tr>
                                 <th scope="row">Książki</th>
-                                <td><?php if (isset($_SESSION['Books'])) {
-                                        echo $_SESSION['Books'];
-                                        unset($_SESSION['Books']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Books"];
+                                unset($_SESSION["Books"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Savings'])) {
+                                echo '<tr>
                                 <th scope="row">Oszczędności</th>
-                                <td><?php if (isset($_SESSION['Savings'])) {
-                                        echo $_SESSION['Savings'];
-                                        unset($_SESSION['Savings']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Savings"];
+                                unset($_SESSION["Savings"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Retirement'])) {
+                                echo '<tr>
                                 <th scope="row">Na emeryturę</th>
-                                <td><?php if (isset($_SESSION['Retirement'])) {
-                                        echo $_SESSION['Retirement'];
-                                        unset($_SESSION['Retirement']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Retirement"];
+                                unset($_SESSION["Retirement"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Repayment'])) {
+                                echo '<tr>
                                 <th scope="row">Spłata długów</th>
-                                <td><?php if (isset($_SESSION['Repayment'])) {
-                                        echo $_SESSION['Repayment'];
-                                        unset($_SESSION['Repayment']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Repayment"];
+                                unset($_SESSION["Repayment"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Donation'])) {
+                                echo '<tr>
                                 <th scope="row">Darowizna</th>
-                                <td><?php if (isset($_SESSION['Donation'])) {
-                                        echo $_SESSION['Donation'];
-                                        unset($_SESSION['Donation']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
-                            <tr>
+                                <td>' . $_SESSION["Donation"];
+                                unset($_SESSION["Donation"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            if (isset($_SESSION['Another Expenses'])) {
+                                echo '<tr>
                                 <th scope="row">Inne wydatki</th>
-                                <td><?php if (isset($_SESSION['Another Expenses'])) {
-                                        echo $_SESSION['Another Expenses'];
-                                        unset($_SESSION['Another Expenses']);
-                                    } else {
-                                        echo "0.00";
-                                    }
-                                    ?></td>
-                            </tr>
+                                <td>' . $_SESSION["Another Expenses"];
+                                unset($_SESSION["Another Expenses"]);
+                                echo '</td>
+                                </tr>';
+                            }
+                            ?>
                         </tbody>
                         <tfoot class="table-warning">
                             <tr>
                                 <th class="border-bottom-0" scope="row">SUMA</th>
                                 <td class="border-bottom-0"><?php if (isset($_SESSION['expenceSum'])) {
-                                                                echo $_SESSION['expenceSum'];
+                                                                echo number_format($_SESSION['expenceSum'], 2, '.', ' ');
                                                                 unset($_SESSION['expenceSum']);
                                                             } else {
                                                                 echo "0.00";
@@ -417,6 +387,185 @@ print_r($_SESSION['incomes_r']);
                         <h3 class="h4 fw-bold h4-app my-4">Moje Wydatki</h3>
                         <div class="pie-chart-app"></div>
                     </div>
+                </div>
+                <h3 class="text-wrap h3 h3-app fw-bold mt-5 mb-3 mx-auto">Zestawienie operacji finansowych</h3>
+                <div class="container-fluid col-md-5 p-0 me-2">
+                    <h4 class="fs-5 fw-bold fs-5-app bg-table-app text-dark text-center mb-3 py-2">PRZYCHODY</h4>
+                    <?php
+                    if (isset($_SESSION['incomeList'])) {
+
+                        foreach ($_SESSION['incomeList'] as $incomeUserFromList) {
+
+                            echo '<table class="table table-borderless table-hover table-striped caption-top rounded-table-app">
+                            <tbody class="table-info">
+                            <tr>
+                                <th class="text-center" scope="col">Data</th>
+                                <td class="text-center">';
+                            if (isset($incomeUserFromList['date_of_income']))
+                                echo $incomeUserFromList['date_of_income'];
+                            echo '</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" scope="col">Kwota</th>
+                                <td class="text-center">';
+                            if (isset($incomeUserFromList['amount']))
+                                echo $incomeUserFromList['amount'];
+                            echo '</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" scope="col">Kategoria</th>
+                                <td class="text-center">';
+                            if (isset($incomeUserFromList['category'])) {
+
+                                switch ($incomeUserFromList['category']) {
+                                    case "Salary":
+                                        echo "Wynagrodzenie";
+                                        break;
+                                    case "Interest":
+                                        echo "Inwestycje";
+                                        break;
+                                    case "Allegro":
+                                        echo "Sprzedaż";
+                                        break;
+                                    case "Another Incomes":
+                                        echo "Inne";
+                                        break;
+                                }
+                            }
+                            echo '</td>
+                            </tr>';
+                            if (isset($incomeUserFromList['income_comment']) && strlen(trim($incomeUserFromList['income_comment'])) != 0) {
+
+                                echo '<tr>
+                                <th class="text-center" scope="col">Komentarz</th>
+                                <td class="text-center">';
+                                echo $incomeUserFromList['income_comment'];
+                                echo '</td>
+                            </tr>';
+                            }
+                            echo '</tbody>
+                            </table>';
+                        }
+                    }
+                    ?>
+                </div>
+                <div class="container-fluid col-md-6 p-0">
+                    <h4 class="fs-5 fw-bold fs-5-app bg-table-app text-dark text-center mb-3 py-2">WYDATKI</h4>
+                    <?php
+                    if (isset($_SESSION['expenceList'])) {
+
+                        foreach ($_SESSION['expenceList'] as $expenceUserFromList) {
+
+                            echo '<table class="table table-borderless table-hover table-striped caption-top rounded-table-app">
+                            <tbody class="table-info">
+                            <tr>
+                                <th class="text-center" scope="col">Data</th>
+                                <td class="text-center">';
+                            if (isset($expenceUserFromList['date_of_expense']))
+                                echo $expenceUserFromList['date_of_expense'];
+                            echo '</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" scope="col">Kwota</th>
+                                <td class="text-center">';
+                            if (isset($expenceUserFromList['amount']))
+                                echo $expenceUserFromList['amount'];
+                            echo '</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center" scope="col">Metoda płatności</th>
+                                    <td class="text-center">';
+                            if (isset($expenceUserFromList['payment'])) {
+
+                                switch ($expenceUserFromList['payment']) {
+                                    case "Cash":
+                                        echo "Gotówka";
+                                        break;
+                                    case "Debit_Card":
+                                        echo "Karta debetowa";
+                                        break;
+                                    case "Credit_Card":
+                                        echo "Karta kredytowa";
+                                        break;
+                                }
+                            }
+                            echo '</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" scope="col">Kategoria</th>
+                                <td class="text-center">';
+                            if (isset($expenceUserFromList['category'])) {
+
+                                switch ($expenceUserFromList['category']) {
+                                    case "Food":
+                                        echo "Jedzenie";
+                                        break;
+                                    case "Apartment":
+                                        echo "Mieszkanie";
+                                        break;
+                                    case "Transport":
+                                        echo "Transport";
+                                        break;
+                                    case "Telecommunication":
+                                        echo "Telekomunikacja";
+                                        break;
+                                    case "Healthcare":
+                                        echo "Opieka zdrowotna";
+                                        break;
+                                    case "Clothes":
+                                        echo "Ubranie";
+                                        break;
+                                    case "Hygiene":
+                                        echo "Higiena";
+                                        break;
+                                    case "Children":
+                                        echo "Dzieci";
+                                        break;
+                                    case "Entertainment":
+                                        echo "Rozrywka";
+                                        break;
+                                    case "Trip":
+                                        echo "Wycieczka";
+                                        break;
+                                    case "Training":
+                                        echo "Szkolenia";
+                                        break;
+                                    case "Books":
+                                        echo "Książki";
+                                        break;
+                                    case "Savings":
+                                        echo "Oszczędności";
+                                        break;
+                                    case "Retirement":
+                                        echo "Na emeryturę";
+                                        break;
+                                    case "Repayment":
+                                        echo "Spłata kredytu";
+                                        break;
+                                    case "Donation":
+                                        echo "Darowizna";
+                                        break;
+                                    case "Another Expenses":
+                                        echo "Inne";
+                                        break;
+                                }
+                            }
+                            echo '</td>
+                            </tr>';
+                            if (isset($expenceUserFromList['expense_comment']) && strlen(trim($expenceUserFromList['expense_comment'])) != 0) {
+
+                                echo '<tr>
+                                <th class="text-center" scope="col">Komentarz</th>
+                                <td class="text-center">';
+                                echo $expenceUserFromList['expense_comment'];
+                                echo '</td>
+                            </tr>';
+                            }
+                            echo '</tbody>
+                            </table>';
+                        }
+                    }
+                    ?>
                 </div>
             </div>
 
