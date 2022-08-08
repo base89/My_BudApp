@@ -2,13 +2,10 @@
 
 session_start();
 
-if (!isset($_POST['formPeriod'])) {
+if (isset($_POST['formPeriod']) || isset($_SESSION['formPeriod'])) {
 
-    header('Location: display_balance.php');
-    exit();
-} else {
-
-    $period = $_POST['formPeriod'];
+    if (isset($_POST['formPeriod']))
+        $_SESSION['formPeriod'] = $_POST['formPeriod'];
 
     if (isset($_POST['startDate']) || isset($_POST['endDate'])) {
         if ($_POST['startDate'] > $_POST['endDate']) {
@@ -18,7 +15,7 @@ if (!isset($_POST['formPeriod'])) {
             exit();
         }
     }
-    switch ($period) {
+    switch ($_SESSION['formPeriod']) {
         case "currentMonth":
             $_SESSION['periodStartDate'] = date('Y-m-d', strtotime("first day of this month"));
             $_SESSION['periodEndDate'] = date('Y-m-d', strtotime("now"));
@@ -36,7 +33,14 @@ if (!isset($_POST['formPeriod'])) {
             $_SESSION['periodEndDate'] = $_POST['endDate'];
             break;
     }
+
+    unset($_SESSION['formPeriod']);
+} else {
+
+    header('Location: display_balance.php');
+    exit();
 }
+
 
 $connect = require_once 'connect.php';
 

@@ -8,7 +8,13 @@ if (!isset($_SESSION['isLogged'])) {
     exit();
 }
 
-print_r($_SESSION['incomes_r']);
+if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) {
+
+    $_SESSION['formPeriod'] = "currentMonth";
+
+    header('Location: balance_form.php');
+    exit();
+}
 
 ?>
 
@@ -111,9 +117,11 @@ print_r($_SESSION['incomes_r']);
                 </div>
             </div>
             <div class="container row col-xl-7 col-lg-8 col-sm-10 border bg-white my-4 mx-auto px-4 pb-4 text-center">
-                <h2 class="text-wrap h2 h2-app fw-bold my-5 mx-auto">Przegląd bilansu<br><?php echo "od " . $_SESSION['periodStartDate'] . " do " . $_SESSION['periodEndDate'];
-                                                                                            unset($_SESSION['periodStartDate']);
-                                                                                            unset($_SESSION['periodEndDate']);
+                <h2 class="text-wrap h2 h2-app fw-bold my-5 mx-auto">Przegląd bilansu<br><?php if (isset($_SESSION['periodStartDate']) && isset($_SESSION['periodEndDate'])) {
+                                                                                                echo "od " . $_SESSION['periodStartDate'] . " do " . $_SESSION['periodEndDate'];
+                                                                                                unset($_SESSION['periodStartDate']);
+                                                                                                unset($_SESSION['periodEndDate']);
+                                                                                            }
                                                                                             ?></h2>
                 <div class="container-fluid col-md-5 p-0 me-2">
                     <table class="table table-borderless table-hover table-striped caption-top rounded-table-app">
