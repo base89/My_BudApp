@@ -41,7 +41,6 @@ if (isset($_POST['formPeriod']) || isset($_SESSION['formPeriod'])) {
     exit();
 }
 
-
 $connect = require_once 'connect.php';
 
 try {
