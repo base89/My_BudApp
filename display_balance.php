@@ -172,7 +172,7 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
                             <tr>
                                 <th class="border-bottom-0" scope="row">SUMA</th>
                                 <td class="border-bottom-0"><?php if (isset($_SESSION['incomesSum'])) {
-                                                                echo $_SESSION['incomesSum'];
+                                                                echo number_format($_SESSION['incomesSum'], 2, '.', ' ');;
                                                                 unset($_SESSION['incomesSum']);
                                                             } else {
                                                                 echo "0.00";
@@ -192,7 +192,7 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
                             </tr>
                         </thead>
                         <tbody>
-                        <?php
+                            <?php
                             if (isset($_SESSION['Food'])) {
                                 echo '<tr>
                                 <th scope="row">Jedzenie</th>
@@ -335,7 +335,7 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
                             <tr>
                                 <th class="border-bottom-0" scope="row">SUMA</th>
                                 <td class="border-bottom-0"><?php if (isset($_SESSION['expenceSum'])) {
-                                                                echo $_SESSION['expenceSum'];
+                                                                echo number_format($_SESSION['expenceSum'], 2, '.', ' ');
                                                                 unset($_SESSION['expenceSum']);
                                                             } else {
                                                                 echo "0.00";
@@ -387,6 +387,185 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
                         <h3 class="h4 fw-bold h4-app my-4">Moje Wydatki</h3>
                         <div class="pie-chart-app"></div>
                     </div>
+                </div>
+                <h3 class="text-wrap h3 h3-app fw-bold mt-5 mb-3 mx-auto">Zestawienie operacji finansowych</h3>
+                <div class="container-fluid col-md-5 p-0 me-2">
+                    <h4 class="fs-5 fw-bold fs-5-app bg-table-app text-dark text-center mb-3 py-2">PRZYCHODY</h4>
+                    <?php
+                    if (isset($_SESSION['incomeList'])) {
+
+                        foreach ($_SESSION['incomeList'] as $incomeUserFromList) {
+
+                            echo '<table class="table table-borderless table-hover table-striped caption-top rounded-table-app">
+                            <tbody class="table-info">
+                            <tr>
+                                <th class="text-center" scope="col">Data</th>
+                                <td class="text-center">';
+                            if (isset($incomeUserFromList['date_of_income']))
+                                echo $incomeUserFromList['date_of_income'];
+                            echo '</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" scope="col">Kwota</th>
+                                <td class="text-center">';
+                            if (isset($incomeUserFromList['amount']))
+                                echo $incomeUserFromList['amount'];
+                            echo '</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" scope="col">Kategoria</th>
+                                <td class="text-center">';
+                            if (isset($incomeUserFromList['category'])) {
+
+                                switch ($incomeUserFromList['category']) {
+                                    case "Salary":
+                                        echo "Wynagrodzenie";
+                                        break;
+                                    case "Interest":
+                                        echo "Inwestycje";
+                                        break;
+                                    case "Allegro":
+                                        echo "Sprzedaż";
+                                        break;
+                                    case "Another Incomes":
+                                        echo "Inne";
+                                        break;
+                                }
+                            }
+                            echo '</td>
+                            </tr>';
+                            if (isset($incomeUserFromList['income_comment']) && strlen(trim($incomeUserFromList['income_comment'])) != 0) {
+
+                                echo '<tr>
+                                <th class="text-center" scope="col">Komentarz</th>
+                                <td class="text-center">';
+                                echo $incomeUserFromList['income_comment'];
+                                echo '</td>
+                            </tr>';
+                            }
+                            echo '</tbody>
+                            </table>';
+                        }
+                    }
+                    ?>
+                </div>
+                <div class="container-fluid col-md-6 p-0">
+                    <h4 class="fs-5 fw-bold fs-5-app bg-table-app text-dark text-center mb-3 py-2">WYDATKI</h4>
+                    <?php
+                    if (isset($_SESSION['expenceList'])) {
+
+                        foreach ($_SESSION['expenceList'] as $expenceUserFromList) {
+
+                            echo '<table class="table table-borderless table-hover table-striped caption-top rounded-table-app">
+                            <tbody class="table-info">
+                            <tr>
+                                <th class="text-center" scope="col">Data</th>
+                                <td class="text-center">';
+                            if (isset($expenceUserFromList['date_of_expense']))
+                                echo $expenceUserFromList['date_of_expense'];
+                            echo '</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" scope="col">Kwota</th>
+                                <td class="text-center">';
+                            if (isset($expenceUserFromList['amount']))
+                                echo $expenceUserFromList['amount'];
+                            echo '</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center" scope="col">Metoda płatności</th>
+                                    <td class="text-center">';
+                            if (isset($expenceUserFromList['payment'])) {
+
+                                switch ($expenceUserFromList['payment']) {
+                                    case "Cash":
+                                        echo "Gotówka";
+                                        break;
+                                    case "Debit_Card":
+                                        echo "Karta debetowa";
+                                        break;
+                                    case "Credit_Card":
+                                        echo "Karta kredytowa";
+                                        break;
+                                }
+                            }
+                            echo '</td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" scope="col">Kategoria</th>
+                                <td class="text-center">';
+                            if (isset($expenceUserFromList['category'])) {
+
+                                switch ($expenceUserFromList['category']) {
+                                    case "Food":
+                                        echo "Jedzenie";
+                                        break;
+                                    case "Apartment":
+                                        echo "Mieszkanie";
+                                        break;
+                                    case "Transport":
+                                        echo "Transport";
+                                        break;
+                                    case "Telecommunication":
+                                        echo "Telekomunikacja";
+                                        break;
+                                    case "Healthcare":
+                                        echo "Opieka zdrowotna";
+                                        break;
+                                    case "Clothes":
+                                        echo "Ubranie";
+                                        break;
+                                    case "Hygiene":
+                                        echo "Higiena";
+                                        break;
+                                    case "Children":
+                                        echo "Dzieci";
+                                        break;
+                                    case "Entertainment":
+                                        echo "Rozrywka";
+                                        break;
+                                    case "Trip":
+                                        echo "Wycieczka";
+                                        break;
+                                    case "Training":
+                                        echo "Szkolenia";
+                                        break;
+                                    case "Books":
+                                        echo "Książki";
+                                        break;
+                                    case "Savings":
+                                        echo "Oszczędności";
+                                        break;
+                                    case "Retirement":
+                                        echo "Na emeryturę";
+                                        break;
+                                    case "Repayment":
+                                        echo "Spłata kredytu";
+                                        break;
+                                    case "Donation":
+                                        echo "Darowizna";
+                                        break;
+                                    case "Another Expenses":
+                                        echo "Inne";
+                                        break;
+                                }
+                            }
+                            echo '</td>
+                            </tr>';
+                            if (isset($expenceUserFromList['expense_comment']) && strlen(trim($expenceUserFromList['expense_comment'])) != 0) {
+
+                                echo '<tr>
+                                <th class="text-center" scope="col">Komentarz</th>
+                                <td class="text-center">';
+                                echo $expenceUserFromList['expense_comment'];
+                                echo '</td>
+                            </tr>';
+                            }
+                            echo '</tbody>
+                            </table>';
+                        }
+                    }
+                    ?>
                 </div>
             </div>
 

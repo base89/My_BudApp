@@ -58,6 +58,8 @@ try {
         $startDate = $_SESSION['periodStartDate'];
         $endDate = $_SESSION['periodEndDate'];
 
+        // income queries
+
         $incomeQuery = "SELECT ic.name, SUM(i.amount) FROM users u 
 		INNER JOIN incomes i ON u.id = i.user_id 
 		INNER JOIN incomes_category_assigned_to_users ic ON i.income_category_assigned_to_user_id = ic.id 
@@ -68,6 +70,14 @@ try {
         INNER JOIN incomes i ON u.id = i.user_id 
         WHERE u.id = $userId AND i.date_of_income >= '$startDate' 
         AND  i.date_of_income <= '$endDate'";
+
+        $incomeListQuery = "SELECT i.amount, i.date_of_income, ic.name AS category, i.income_comment FROM users u 
+        INNER JOIN incomes i ON u.id = i.user_id 
+        INNER JOIN incomes_category_assigned_to_users ic ON i.income_category_assigned_to_user_id = ic.id
+        WHERE u.id = $userId AND i.date_of_income >= '$startDate' 
+        AND  i.date_of_income <= '$endDate' ORDER BY i.date_of_income DESC";
+
+        // expense queries
 
         $expenceQuery = "SELECT ec.name, SUM(e.amount) FROM users u 
 		INNER JOIN expences e ON u.id = e.user_id 
@@ -80,13 +90,22 @@ try {
         WHERE u.id = $userId AND e.date_of_expense >= '$startDate' 
         AND  e.date_of_expense <= '$endDate'";
 
-        if ($connection->query($incomeQuery) && $connection->query($incomeSumQuery) && $connection->query($expenceQuery) && $connection->query($expenceSumQuery)) {
+        $expenceListQuery = "SELECT e.amount, e.date_of_expense, p.name AS payment, ec.name AS category, e.expense_comment FROM users u 
+		INNER JOIN expences e ON u.id = e.user_id 
+		INNER JOIN expenses_category_assigned_to_users ec ON e.expense_category_assigned_to_user_id = ec.id
+		INNER JOIN payment_methods_assigned_to_users p ON e.payment_method_assigned_to_user_id = p.id
+		WHERE u.id = $userId AND e.date_of_expense >= '$startDate' 
+		AND  e.date_of_expense <= '$endDate' ORDER BY e.date_of_expense DESC";
 
-            $incomes = $connection->query($incomeQuery)->fetchAll();
+        if ($connection->query($incomeQuery) && $connection->query($incomeSumQuery) && $connection->query($expenceQuery)
+            && $connection->query($expenceSumQuery) && $connection->query($incomeListQuery) && $connection->query($expenceListQuery)) {
 
-            foreach ($incomes as $userIncome) {
+            if ($incomes = $connection->query($incomeQuery)->fetchAll()) {
 
-                $_SESSION[$userIncome[0]] = $userIncome[1];
+                foreach ($incomes as $userIncome) {
+
+                    $_SESSION[$userIncome[0]] = $userIncome[1];
+                }
             }
 
             if ($incomesSum = $connection->query($incomeSumQuery)->fetch()) {
@@ -100,11 +119,17 @@ try {
                 }
             }
 
-            $expences = $connection->query($expenceQuery)->fetchAll();
+            if ($incomeList = $connection->query($incomeListQuery)->fetchAll()) {
 
-            foreach ($expences as $userExpence) {
+                $_SESSION['incomeList'] = $incomeList;
+            }
 
-                $_SESSION[$userExpence[0]] = $userExpence[1];
+            if ($expences = $connection->query($expenceQuery)->fetchAll()) {
+
+                foreach ($expences as $userExpence) {
+
+                    $_SESSION[$userExpence[0]] = $userExpence[1];
+                }
             }
 
             if ($expenceSum = $connection->query($expenceSumQuery)->fetch()) {
@@ -118,9 +143,14 @@ try {
                 }
             }
 
+            if ($expenceList = $connection->query($expenceListQuery)->fetchAll()) {
+                
+                $_SESSION['expenceList'] = $expenceList;
+            }
+
             if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
 
-                $_SESSION['balance'] = $_SESSION['incomesSum'] - $_SESSION['expenceSum'];
+                $_SESSION['balance'] = number_format($_SESSION['incomesSum'] - $_SESSION['expenceSum'], 2, '.', ' ');
             }
 
             header('Location: display_balance.php');

@@ -114,6 +114,10 @@ body {
         font-size: calc(1.2rem + 1.1vw) !important;
     }
 
+    .h3-app {
+        font-size: calc(1.1rem + .7vw) !important;
+    }
+
     .h4-app {
         font-size: calc(1.1rem + .3vw) !important;
     }
