@@ -16,6 +16,18 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
     exit();
 }
 
+if (isset($_SESSION['dataPoints'])) {
+
+    $i = 0;
+    foreach ($_SESSION['dataPoints'] as $dataRow) {
+
+        $dataPoints[$i]["label"] = $dataRow['name'];
+        $dataPoints[$i]["y"] = $dataRow['SUM(e.amount)'];
+        $i++;
+    }
+    unset($_SESSION['dataPoints']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -29,9 +41,10 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="script.js"></script>
 </head>
 
-<body>
+<body onload="createPieChart()">
 
     <main>
 
@@ -381,14 +394,50 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
 
                     </div>
                 </div>
+                <div class="row mx-auto mt-4 mb-2">
+                    <div class="container">
 
-                <div class="row mx-auto mt-4">
-                    <div class="container p-0">
-                        <h3 class="h4 fw-bold h4-app my-4">Moje Wydatki</h3>
-                        <div class="pie-chart-app"></div>
+                        <script>
+                            function createPieChart() {
+
+                                var chart = new CanvasJS.Chart("chartContainer", {
+                                    theme: "light2",
+                                    animationEnabled: true,
+                                    title: {
+                                        text: "Podsumowanie wydatków"
+                                    },
+                                    data: [{
+                                        type: "pie",
+                                        indexLabelFontSize: 16,
+                                        radius: 120,
+                                        indexLabel: " {label} - #percent%",
+                                        yValueFormatString: "###0.0\ zł",
+                                        click: explodePie,
+                                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                                    }]
+                                });
+                                chart.render();
+                                chart.title.set("fontSize", 28);
+                                chart.title.set("fontColor", "#092834", false);
+                                chart.legend.set("fontSize", 16);
+
+                                function explodePie(e) {
+                                    for (var i = 0; i < e.dataSeries.dataPoints.length; i++) {
+                                        if (i !== e.dataPointIndex)
+                                            e.dataSeries.dataPoints[i].exploded = false;
+                                    }
+                                }
+
+                            }
+                        </script>
+
+                        <?php
+                        if (isset($_SESSION['expenceList']))
+                            echo '<div style="height: 370px; width: 100%;" id="chartContainer"></div>';
+                        ?>
                     </div>
                 </div>
-                <h3 class="text-wrap h3 h3-app fw-bold mt-5 mb-3 mx-auto">Zestawienie operacji finansowych</h3>
+                <h3 class="text-wrap h3 h3-app fw-bold mt-3 mb-3 mx-auto">Zestawienie operacji finansowych</h3>
                 <div class="container-fluid col-md-5 p-0 me-2">
                     <h4 class="fs-5 fw-bold fs-5-app bg-table-app text-dark text-center mb-3 py-2">PRZYCHODY</h4>
                     <?php
@@ -445,6 +494,7 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
                             }
                             echo '</tbody>
                             </table>';
+                            unset($_SESSION['incomeList']);
                         }
                     }
                     ?>
@@ -563,6 +613,7 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
                             }
                             echo '</tbody>
                             </table>';
+                            unset($_SESSION['expenceList']);
                         }
                     }
                     ?>
@@ -597,6 +648,7 @@ if (!isset($_SESSION['periodStartDate']) && !isset($_SESSION['periodEndDate'])) 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 
 </html>

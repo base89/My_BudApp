@@ -97,8 +97,19 @@ try {
 		WHERE u.id = $userId AND e.date_of_expense >= '$startDate' 
 		AND  e.date_of_expense <= '$endDate' ORDER BY e.date_of_expense DESC";
 
-        if ($connection->query($incomeQuery) && $connection->query($incomeSumQuery) && $connection->query($expenceQuery)
-            && $connection->query($expenceSumQuery) && $connection->query($incomeListQuery) && $connection->query($expenceListQuery)) {
+        // data points
+
+        $dataPointsQuery = "SELECT ec.name, SUM(e.amount) FROM users u 
+		INNER JOIN expences e ON u.id = e.user_id 
+		INNER JOIN expenses_category_assigned_to_users ec ON e.expense_category_assigned_to_user_id = ec.id 
+		WHERE u.id = $userId AND e.date_of_expense >= '$startDate' 
+		AND  e.date_of_expense <= '$endDate' GROUP BY ec.id";
+
+        if (
+            $connection->query($incomeQuery) && $connection->query($incomeSumQuery) && $connection->query($expenceQuery)
+            && $connection->query($expenceSumQuery) && $connection->query($incomeListQuery) && $connection->query($expenceListQuery)
+            && $connection->query($dataPointsQuery)
+        ) {
 
             if ($incomes = $connection->query($incomeQuery)->fetchAll()) {
 
@@ -144,13 +155,18 @@ try {
             }
 
             if ($expenceList = $connection->query($expenceListQuery)->fetchAll()) {
-                
+
                 $_SESSION['expenceList'] = $expenceList;
             }
 
             if (isset($_SESSION['incomesSum']) && isset($_SESSION['expenceSum'])) {
 
                 $_SESSION['balance'] = number_format($_SESSION['incomesSum'] - $_SESSION['expenceSum'], 2, '.', ' ');
+            }
+
+            if ($dataPoints = $connection->query($dataPointsQuery)->fetchAll()) {
+
+                $_SESSION['dataPoints'] = $dataPoints;
             }
 
             header('Location: display_balance.php');
