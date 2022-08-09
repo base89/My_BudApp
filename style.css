@@ -75,20 +75,11 @@ body {
     letter-spacing: .025em;
 }
 
-.pie-chart-app {
-    height: 350px;
-    width: 350px;
-    margin: 1em auto;
-    border-radius: 50%;
-    background: conic-gradient(#dad7cd 0.00%, #ffca3a 0.00% 0.55%, #8ac926 0.55% 6.08%, #1982c4 6.08% 13.68%, #6a4c93 13.68% 23.27%, #723d46 23.27% 40.47%, #ff595e 40.47%);
-}
-
 .captcha {
     display: inline-block;
 }
 
-@media (max-width: 576px)
-{
+@media (max-width: 576px) {
     body {
         background-color: white !important;
     }
@@ -141,7 +132,7 @@ body {
     .f-footer-t {
         font-size: calc(0.65rem + .3vw) !important;
     }
-    
+
     .f-footer-b {
         font-size: calc(0.5rem + .3vw) !important;
     }
